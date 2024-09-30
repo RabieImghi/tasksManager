@@ -6,13 +6,14 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "UserServlet", value = "/user-servlet")
+@WebServlet(name = "UserServlet", value = "/user")
 public class UserServlet extends HttpServlet {
     private String message;
 
     public void init() {
         message = "Hello User!";
     }
+
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
@@ -24,6 +25,10 @@ public class UserServlet extends HttpServlet {
         out.println("</body></html>");
     }
 
-    public void destroy() {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html");
+    }
+
+        public void destroy() {
     }
 }
