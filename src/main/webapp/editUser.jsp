@@ -13,7 +13,7 @@
 <body>
 <div class="container mt-5">
     <h1 class="text-center">Edit User</h1>
-    <form action="updateUser" method="POST">
+    <form action="User" method="POST">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" value="${user.username}" required>
@@ -24,7 +24,7 @@
         </div>
         <div class="form-group">
             <label for="lastname">Last Name</label>
-            <input type="email" class="form-control" id="lastname" name="lastname" value="${user.lastname}" required>
+            <input type="text" class="form-control" id="lastname" name="lastname" value="${user.lastname}" required>
         </div>
 
         <div class="form-group">
@@ -33,7 +33,7 @@
         </div>
 
         <input type="hidden" name="id" value="${user.id}"> <!-- Pass user ID for update -->
-        <button type="submit" class="btn btn-primary">Update Profile</button>
+        <button type="submit" value="update" class="btn btn-primary">Update Profile</button>
     </form>
 </div>
 

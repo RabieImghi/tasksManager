@@ -100,4 +100,36 @@ public class UserRepository implements UserRepositoryImpl {
             throw e;
         }
     }
+    public Optional<User> deleteById(User user){
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            entityManager.remove(user);
+            transaction.commit();
+            return Optional.of(user);
+        }catch (Exception e){
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+        }
+        return Optional.empty();
+    }
+    public Optional<User> update(User user){
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            entityManager.merge(user);
+            transaction.commit();
+            return Optional.of(user);
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
 }

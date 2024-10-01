@@ -26,7 +26,7 @@
                 </li>
             </ul>
             <a href="User?id=${user.id}&action=update" class="btn btn-primary mt-3">Edit Profile</a>
-            <a href="User?id=${user.id}&action=delete" class="btn btn-primary mt-3">Edit Profile</a>
+            <a href="User?id=${user.id}&action=delete" class="btn btn-danger mt-3">Delete Account</a>
         </div>
     </div>
 </div>

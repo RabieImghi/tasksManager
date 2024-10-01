@@ -41,10 +41,39 @@ public class UserServlet extends HttpServlet {
                 Long id = Long.parseLong(idParam);
                 Optional<User> user =userService.getById(id);
                 if(user.isPresent()){
-
+                    if(userService.deleteById(user.get()).isPresent()){
+                        response.sendRedirect("Login");
+                    }
                 }
             }
         }
 
     }
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user.jsp");
+        response.setContentType("text/html");
+        String username = request.getParameter("username");
+        String firstname = request.getParameter("firstname");
+        String lastname = request.getParameter("lastname");
+        String email = request.getParameter("email");
+        String id = request.getParameter("id");
+        Long userId = Long.parseLong(id);
+        Optional<User> userOptional =userService.getById(userId);
+        if (userOptional.isPresent()){
+            User user = userOptional.get();
+            user.setFirstname(firstname);
+            user.setLastname(lastname);
+            user.setEmail(email);
+            user.setUsername(username);
+            userService.update(user);
+            request.setAttribute("user", user);
+            dispatcher.forward(request,response);
+        }else {
+            dispatcher.forward(request,response);
+        }
+
+
+
+    }
+
 }
