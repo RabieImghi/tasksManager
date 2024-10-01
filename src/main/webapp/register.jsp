@@ -18,6 +18,9 @@
                     <h3>Register</h3>
                 </div>
                 <div class="card-body">
+                    <c:if test="${not empty message}">
+                        <div style="color: red;">${message}</div>
+                    </c:if>
                     <!-- Form to register a new user -->
                     <form action="Register" method="post">
                         <div class="form-group">

@@ -14,6 +14,9 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card mt-5">
+        <c:if tset="${not empty message}">
+          <div style="color: green">${message}</div>
+        </c:if>
         <div class="card-header bg-primary text-white text-center">
           <h3>Login</h3>
         </div>
