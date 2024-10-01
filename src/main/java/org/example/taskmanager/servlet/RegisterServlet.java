@@ -11,12 +11,16 @@ import org.example.taskmanager.service.UserService;
 import org.example.taskmanager.util.Manage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(name = "Register", value = "Register")
 public class RegisterServlet extends HttpServlet {
 
-    private UserService userService = new UserService();
+    private UserService userService;
 
+    public void init() throws ServletException {
+        this.userService = new UserService();
+    }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
         dispatcher.forward(request, response);
@@ -26,15 +30,20 @@ public class RegisterServlet extends HttpServlet {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
-
         User user = new User(username, email, password, Manage.USER);
+
+
         try {
-            userService.register(user);
-            response.sendRedirect("login.jsp");
+            if (userService.register(user)) {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
+                dispatcher.forward(request, response);
+            }
         } catch (Exception e) {
-            request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+            throw new RuntimeException(e);
         }
+
     }
 }

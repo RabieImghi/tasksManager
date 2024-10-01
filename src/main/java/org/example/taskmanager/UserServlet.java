@@ -1,5 +1,7 @@
 package org.example.taskmanager;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.servlet.annotation.*;
 import jakarta.servlet.http.*;
 
@@ -12,6 +14,14 @@ public class UserServlet extends HttpServlet {
 
     public void init() {
         message = "Hello User!";
+        try {
+            // Initialize the EntityManagerFactory
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("myJPAUnit");
+            message = "Connected to the database successfully!";
+        } catch (Exception e) {
+            // Handle the exception
+            message = "Error connecting to the database: " + e.getMessage();
+        }
     }
 
 

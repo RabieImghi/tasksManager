@@ -3,6 +3,7 @@ package org.example.taskmanager.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.transaction.Transactional;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.repository.impl.UserRepositoryImpl;
 import java.util.Optional;
@@ -17,21 +18,10 @@ public class UserRepository implements UserRepositoryImpl {
         this.entityManager = emf.createEntityManager();
     }
 
-    public void save(User user){
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(user);
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            if (entityManager != null) {
-                entityManager.getTransaction().rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
-        }
+    @Transactional
+    public boolean save(User user){
+        entityManager.persist(user);
+        return true;git
     }
     public Optional<User> findByEmail(String email){
         return Optional.empty();
