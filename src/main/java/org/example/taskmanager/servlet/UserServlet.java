@@ -6,11 +6,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.service.UserService;
+import org.example.taskmanager.util.Manage;
 
 import java.io.IOException;
 import java.nio.file.OpenOption;
+import java.util.List;
 import java.util.Optional;
 
 @WebServlet(name = "User", value = "User")
@@ -22,8 +25,11 @@ public class UserServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("user.jsp");
         RequestDispatcher editDispatcher = request.getRequestDispatcher("editUser.jsp");
+        HttpSession session = request.getSession();
         String idParam = request.getParameter("id");
         String action = request.getParameter("action");
+        String typeParam = request.getParameter("type");
+        session.setAttribute("typeParam", typeParam);
         if(action.equals("update")){
             if (idParam != null) {
                 Long id = Long.parseLong(idParam);
@@ -42,14 +48,22 @@ public class UserServlet extends HttpServlet {
                 Optional<User> user =userService.getById(id);
                 if(user.isPresent()){
                     if(userService.deleteById(user.get()).isPresent()){
-                        response.sendRedirect("Login");
+                        String type = request.getParameter("type");
+                        if(type.equals("manager")){
+                            request.setAttribute("userList",userService.getAll());
+                            request.getRequestDispatcher("userManager.jsp").forward(request, response);
+                        } else response.sendRedirect("Login");
+
                     }
                 }
             }
+        }else if(action.equals("logout")){
+            response.sendRedirect("Login");
         }
 
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession();
         RequestDispatcher dispatcher = request.getRequestDispatcher("user.jsp");
         response.setContentType("text/html");
         String username = request.getParameter("username");
@@ -58,6 +72,8 @@ public class UserServlet extends HttpServlet {
         String email = request.getParameter("email");
         String id = request.getParameter("id");
         Long userId = Long.parseLong(id);
+
+        String typeParam = session.getAttribute("typeParam").toString();
         Optional<User> userOptional =userService.getById(userId);
         if (userOptional.isPresent()){
             User user = userOptional.get();
@@ -67,7 +83,11 @@ public class UserServlet extends HttpServlet {
             user.setUsername(username);
             userService.update(user);
             request.setAttribute("user", user);
-            dispatcher.forward(request,response);
+            if(typeParam.equals("user")) dispatcher.forward(request,response);
+            else {
+                request.setAttribute("userList", userService.getAll());
+                request.getRequestDispatcher("userManager.jsp").forward(request,response);
+            };
         }else {
             dispatcher.forward(request,response);
         }

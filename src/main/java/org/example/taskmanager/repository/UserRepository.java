@@ -132,4 +132,24 @@ public class UserRepository implements UserRepositoryImpl {
             throw e;
         }
     }
+
+    public List<User> getAll(){
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            String stmFind = "SELECT u FROM User u";
+            List<User> users = entityManager
+                    .createQuery(stmFind, User.class)
+                    .getResultList();
+            transaction.commit();
+            return users;
+        }catch (Exception e){
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
 }

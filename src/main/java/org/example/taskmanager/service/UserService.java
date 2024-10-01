@@ -6,6 +6,7 @@ import org.example.taskmanager.entity.User;
 import org.example.taskmanager.repository.UserRepository;
 import org.example.taskmanager.service.impl.UserServiceImpl;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserService implements UserServiceImpl {
@@ -48,5 +49,8 @@ public class UserService implements UserServiceImpl {
     }
     public Optional<User> update(User user){
         return userRepository.update(user);
+    }
+    public List<User> getAll(){
+        return userRepository.getAll();
     }
 }
