@@ -32,6 +32,18 @@
             <input type="email" class="form-control" id="email" name="email" value="${user.email}" required>
         </div>
 
+        <c:if test="${not empty isManager}">
+            <div class="form-group">
+                <label for="typeUser">User Type</label>
+                <select class="form-control" id="typeUser" name="typeUser" aria-label="Default select example">
+                    <option value="USER">User</option>
+                    <option value="MANAGER">Manager</option>
+                </select>
+            </div>
+        </c:if>
+        <c:if test="${empty isManager}">
+            <input type="hidden" name="typeUser" value="USER">
+        </c:if>
         <input type="hidden" name="id" value="${user.id}"> <!-- Pass user ID for update -->
         <button type="submit" value="update" class="btn btn-primary">Update Profile</button>
     </form>

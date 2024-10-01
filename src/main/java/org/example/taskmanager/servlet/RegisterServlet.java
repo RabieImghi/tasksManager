@@ -34,7 +34,9 @@ public class RegisterServlet extends HttpServlet {
         String lastname = request.getParameter("lastname");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        User user = new User(username,firstname,lastname, email, password, Manage.USER);
+        String typeUser = request.getParameter("typeUser");
+        String submitType = request.getParameter("submit");
+        User user = new User(username,firstname,lastname, email, password, Manage.valueOf(typeUser));
 
         RequestDispatcher loginDispatcher = request.getRequestDispatcher("index.jsp");
         RequestDispatcher registerDispatcher = request.getRequestDispatcher("register.jsp");
@@ -53,7 +55,11 @@ public class RegisterServlet extends HttpServlet {
                 }
                 if (message.isEmpty()){
                     request.setAttribute("message","Register With success");
-                    loginDispatcher.forward(request, response);
+                    if (submitType.equals("user")) loginDispatcher.forward(request, response);
+                    else {
+                        request.setAttribute("userList", userService.getAll());
+                        request.getRequestDispatcher("userManager.jsp").forward(request,response);
+                    };
                 }
                 else {
                     request.setAttribute("message", message);

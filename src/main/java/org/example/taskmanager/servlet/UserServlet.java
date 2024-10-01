@@ -36,6 +36,7 @@ public class UserServlet extends HttpServlet {
                 Optional<User> user =userService.getById(id);
                 if(user.isPresent()){
                     request.setAttribute("user", user.get());
+                    if(typeParam.equals("manager")) request.setAttribute("isManager", "true");
                     editDispatcher.forward(request, response);
                 }
             }
@@ -70,6 +71,7 @@ public class UserServlet extends HttpServlet {
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
         String email = request.getParameter("email");
+        String typeUser = request.getParameter("typeUser");
         String id = request.getParameter("id");
         Long userId = Long.parseLong(id);
 
@@ -81,6 +83,7 @@ public class UserServlet extends HttpServlet {
             user.setLastname(lastname);
             user.setEmail(email);
             user.setUsername(username);
+            user.setManage(Manage.valueOf(typeUser));
             userService.update(user);
             request.setAttribute("user", user);
             if(typeParam.equals("user")) dispatcher.forward(request,response);
