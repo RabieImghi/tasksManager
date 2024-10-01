@@ -31,8 +31,16 @@ public class UserService implements UserServiceImpl {
         },()->userRepository.save(user)));
         return Optional.of(user);
     }
-   public Optional<User> login(String username, String password) throws Exception{
+    public Optional<User> login(String username, String password) throws Exception{
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isPresent()){
+            if(user.get().getPassword().equals(password)){
+                return user;
+            }
+        }
         return Optional.empty();
     }
-
+    public Optional<User> getById(Long id){
+        return userRepository.findById(id);
+    }
 }

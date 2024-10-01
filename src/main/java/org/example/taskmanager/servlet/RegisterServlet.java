@@ -30,9 +30,11 @@ public class RegisterServlet extends HttpServlet {
         response.setContentType("text/html");
         HttpSession session = request.getSession(false);
         String username = request.getParameter("username");
+        String firstname = request.getParameter("firstname");
+        String lastname = request.getParameter("lastname");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        User user = new User(username, email, password, Manage.USER);
+        User user = new User(username,firstname,lastname, email, password, Manage.USER);
 
         RequestDispatcher loginDispatcher = request.getRequestDispatcher("index.jsp");
         RequestDispatcher registerDispatcher = request.getRequestDispatcher("register.jsp");

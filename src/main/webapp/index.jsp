@@ -21,7 +21,7 @@
           <h3>Login</h3>
         </div>
         <div class="card-body">
-          <form action="user" method="post">
+          <form action="Login" method="post">
             <div class="form-group">
               <label for="username">Username</label>
               <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>

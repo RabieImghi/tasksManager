@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface UserServiceImpl {
     Optional<User> register(User user, HttpServletRequest request) throws Exception;
     Optional<User> login(String username, String password) throws Exception;
+    Optional<User> getById(Long id);
 }

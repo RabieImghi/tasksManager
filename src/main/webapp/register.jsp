@@ -28,6 +28,14 @@
                             <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
                         </div>
                         <div class="form-group">
+                            <label for="firstname">Firstname</label>
+                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Lastname</label>
+                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
                         </div>
