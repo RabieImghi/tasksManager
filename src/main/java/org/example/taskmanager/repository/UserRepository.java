@@ -132,7 +132,6 @@ public class UserRepository implements UserRepositoryImpl {
             throw e;
         }
     }
-
     public List<User> getAll(){
         EntityTransaction transaction = entityManager.getTransaction();
         try {
