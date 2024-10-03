@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.service.UserService;
 import org.example.taskmanager.util.Manage;
@@ -29,18 +30,18 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        HttpSession session = request.getSession();
 
         try {
             Optional<User> user = userService.login(username,password);
             if(user.isPresent()) {
                 request.setAttribute("user", user.get());
+                session.setAttribute("user", user.get());
                 if(user.get().getManage().equals(Manage.USER)){
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("user.jsp");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("admin/__ My-Task__ Tickets.jsp");
                     dispatcher.forward(request, response);
                 }else {
-                    List<User> users= userService.getAll();
-                    request.setAttribute("userList", users);
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("userManager.jsp");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("admin/__ My-Task__ Dashboard.jsp");
                     dispatcher.forward(request, response);
                 }
             }else {

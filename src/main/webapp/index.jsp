@@ -23,7 +23,7 @@
         <div class="card-body">
           <form action="Login" method="post">
             <div class="form-group">
-              <label for="username">Username</label>
+              <label for="username">Username </label>
               <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
             </div>
             <div class="form-group">

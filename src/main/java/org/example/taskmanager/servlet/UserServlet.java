@@ -23,7 +23,8 @@ public class UserServlet extends HttpServlet {
         userService = new UserService();
     }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("user.jsp");
+        RequestDispatcher dashboard = request.getRequestDispatcher("admin/__ My-Task__ Dashboard.jsp");
+        RequestDispatcher users = request.getRequestDispatcher("admin/__ My-Task__ Ourclients.jsp");
         RequestDispatcher editDispatcher = request.getRequestDispatcher("editUser.jsp");
         HttpSession session = request.getSession();
         String idParam = request.getParameter("id");
@@ -41,7 +42,7 @@ public class UserServlet extends HttpServlet {
                 }
             }
             else {
-                dispatcher.forward(request, response);
+                users.forward(request, response);
             }
         }else if(action.equals("delete")){
             if (idParam != null){
@@ -58,7 +59,13 @@ public class UserServlet extends HttpServlet {
                     }
                 }
             }
-        }else if(action.equals("logout")){
+        }else if(action.equals("dashboard")){
+            dashboard.forward(request, response);
+        }else if(action.equals("users")){
+            List<User> usersList= userService.getAll();
+            request.setAttribute("userList", usersList);
+            users.forward(request, response);
+        } else if(action.equals("logout")){
             response.sendRedirect("Login");
         }
 
