@@ -58,7 +58,7 @@ public class RegisterServlet extends HttpServlet {
                     if (submitType.equals("user")) loginDispatcher.forward(request, response);
                     else {
                         request.setAttribute("userList", userService.getAll());
-                        request.getRequestDispatcher("userManager.jsp").forward(request,response);
+                        request.getRequestDispatcher("admin/__ My-Task__ Ourclients.jsp").forward(request,response);
                     };
                 }
                 else {

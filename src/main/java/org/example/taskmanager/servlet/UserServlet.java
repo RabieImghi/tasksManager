@@ -25,7 +25,7 @@ public class UserServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dashboard = request.getRequestDispatcher("admin/__ My-Task__ Dashboard.jsp");
         RequestDispatcher users = request.getRequestDispatcher("admin/__ My-Task__ Ourclients.jsp");
-        RequestDispatcher editDispatcher = request.getRequestDispatcher("editUser.jsp");
+        RequestDispatcher editDispatcher = request.getRequestDispatcher("admin/__ My-Task__ EditClient.jsp");
         HttpSession session = request.getSession();
         String idParam = request.getParameter("id");
         String action = request.getParameter("action");
@@ -53,7 +53,7 @@ public class UserServlet extends HttpServlet {
                         String type = request.getParameter("type");
                         if(type.equals("manager")){
                             request.setAttribute("userList",userService.getAll());
-                            request.getRequestDispatcher("userManager.jsp").forward(request, response);
+                            users.forward(request, response);
                         } else response.sendRedirect("Login");
 
                     }
@@ -74,33 +74,39 @@ public class UserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = request.getRequestDispatcher("user.jsp");
         response.setContentType("text/html");
-        String username = request.getParameter("username");
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        String email = request.getParameter("email");
-        String typeUser = request.getParameter("typeUser");
-        String id = request.getParameter("id");
-        Long userId = Long.parseLong(id);
-
-        String typeParam = session.getAttribute("typeParam").toString();
-        Optional<User> userOptional =userService.getById(userId);
-        if (userOptional.isPresent()){
-            User user = userOptional.get();
-            user.setFirstname(firstname);
-            user.setLastname(lastname);
-            user.setEmail(email);
-            user.setUsername(username);
-            user.setManage(Manage.valueOf(typeUser));
-            userService.update(user);
-            request.setAttribute("user", user);
-            if(typeParam.equals("user")) dispatcher.forward(request,response);
-            else {
-                request.setAttribute("userList", userService.getAll());
-                request.getRequestDispatcher("userManager.jsp").forward(request,response);
-            };
+        if(request.getParameter("action") != null && request.getParameter("action").equals("addUser")){
+            RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ AddClient.jsp");
+            tasks.forward(request, response);
         }else {
-            dispatcher.forward(request,response);
+            String username = request.getParameter("username");
+            String firstname = request.getParameter("firstname");
+            String lastname = request.getParameter("lastname");
+            String email = request.getParameter("email");
+            String typeUser = request.getParameter("typeUser");
+            String id = request.getParameter("id");
+            Long userId = Long.parseLong(id);
+            String typeParam = session.getAttribute("typeParam").toString();
+            Optional<User> userOptional =userService.getById(userId);
+            if (userOptional.isPresent()){
+                User user = userOptional.get();
+                user.setFirstname(firstname);
+                user.setLastname(lastname);
+                user.setEmail(email);
+                user.setUsername(username);
+                user.setManage(Manage.valueOf(typeUser));
+                userService.update(user);
+                request.setAttribute("user", user);
+                if(typeParam.equals("user")) dispatcher.forward(request,response);
+                else {
+                    request.setAttribute("userList", userService.getAll());
+                    request.getRequestDispatcher("admin/__ My-Task__ Ourclients.jsp").forward(request,response);
+                };
+            }else {
+                dispatcher.forward(request,response);
+            }
         }
+
+
 
 
 

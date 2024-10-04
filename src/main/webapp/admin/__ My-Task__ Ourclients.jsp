@@ -275,8 +275,9 @@ display: none !important;
                             <div class="card-header py-3 px-0 d-flex align-items-center  justify-content-between border-bottom">
                                 <h3 class=" fw-bold flex-fill mb-0">Clients</h3>
                                 <div class="col-auto d-flex">
-
-                                    <button type="button" class="btn btn-dark ms-1 " data-bs-toggle="modal" data-bs-target="#createproject"><i class="icofont-plus-circle me-2 fs-6"></i>Add Client</button>
+                                    <form action="User" method="POST">
+                                        <button type="submit" name="action" value="addUser" class="btn btn-dark ms-1 ">Add User</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -293,11 +294,11 @@ display: none !important;
                                         <div class="about-info d-flex align-items-center mt-1 justify-content-center flex-column">
                                             <h6 class="mb-0 fw-bold d-block fs-6 mt-2">${user.manage}</h6>
                                             <div class="btn-group mt-2" role="group" aria-label="Basic outlined example">
-                                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editproject">
-                                                    <img src="admin/edit.svg" width="15px" ></button>
-                                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#deleteproject">
+                                                <a href="User?id=${user.id}&action=update&type=manager" class="btn btn-outline-secondary" >
+                                                    <img src="admin/edit.svg" width="15px" ></a>
+                                                <a href="User?id=${user.id}&action=delete&type=manager" class="btn btn-outline-secondary">
                                                     <img src="admin/ui-delete.svg" width="15px" >
-                                                </button>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

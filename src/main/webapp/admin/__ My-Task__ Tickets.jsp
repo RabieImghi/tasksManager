@@ -272,7 +272,7 @@ display: none !important;
             </nav>
         </div>
 
-        <!-- Body: Body -->       
+        <!-- Body: Body -->
         <div class="body d-flex py-lg-3 py-md-2">
             <div class="container-xxl">
                 <div class="row align-items-center">
@@ -291,7 +291,7 @@ display: none !important;
                             <div class="card-body">
                                 <div id="myProjectTable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                                     <div class="row">
-                                      
+
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12">
@@ -300,12 +300,12 @@ display: none !important;
                                         <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="myProjectTable" rowspan="1" colspan="1" style="width: 90.2px;" aria-sort="ascending" aria-label="Tickit Id: activate to sort column descending">Tickit Id</th><th class="sorting" tabindex="0" aria-controls="myProjectTable" rowspan="1" colspan="1" style="width: 225.2px;" aria-label="Subject: activate to sort column ascending">Subject</th><th class="sorting" tabindex="0" aria-controls="myProjectTable" rowspan="1" colspan="1" style="width: 204.2px;" aria-label="Assigned: activate to sort column ascending">Assigned</th><th class="dt-body-right sorting" tabindex="0" aria-controls="myProjectTable" rowspan="1" colspan="1" style="width: 137.2px;" aria-label="Created Date: activate to sort column ascending">Created Date</th><th class="sorting" tabindex="0" aria-controls="myProjectTable" rowspan="1" colspan="1" style="width: 92.2px;" aria-label="Status: activate to sort column ascending">Status</th><th class="dt-body-right sorting" tabindex="0" aria-controls="myProjectTable" rowspan="1" colspan="1" style="width: 101.2px;" aria-label="Actions: activate to sort column ascending">Actions</th></tr>
                                     </thead>
                                     <tbody>
-                                        
-                                        
-                                         
-                                         
-                                         
-                                         
+
+
+
+
+
+
                                     <tr role="row" class="odd">
                                             <td tabindex="0" class="sorting_1">
                                                 <a href="https://pixelwibes.com/template/my-task/html/dist/ticket-detail.html" class="fw-bold text-secondary">#Tc-00011</a>
@@ -332,7 +332,7 @@ display: none !important;
                                                 <a href="https://pixelwibes.com/template/my-task/html/dist/ticket-detail.html" class="fw-bold text-secondary">#Tc-0002</a>
                                             </td>
                                             <td>
-                                               Internet Not Working 
+                                               Internet Not Working
                                            </td>
                                            <td>
                                                <img class="avatar rounded-circle" src="./admin/__ My-Task__ Tickets_files/avatar1.jpg" alt="">
@@ -416,7 +416,7 @@ display: none !important;
                                                 <a href="https://pixelwibes.com/template/my-task/html/dist/ticket-detail.html" class="fw-bold text-secondary">#Tc-0006</a>
                                             </td>
                                             <td>
-                                                Salary Amount wrong 
+                                                Salary Amount wrong
                                             </td>
                                             <td>
                                                 <img class="avatar rounded-circle" src="./admin/__ My-Task__ Tickets_files/avatar2.jpg" alt="">
