@@ -1,11 +1,15 @@
 package org.example.taskmanager.entity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.taskmanager.util.Manage;
 
 import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
+@Data
 public class User implements Serializable {
 
     @Id
@@ -31,10 +35,7 @@ public class User implements Serializable {
     @Column(name = "manage")
     private Manage manage;
 
-    public User() {
-    }
-
-    public User(String username,String firstname,String lastname, String email, String password, Manage manage) {
+    public User(String username, String firstname, String lastname, String password, String email, Manage manage) {
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -42,63 +43,5 @@ public class User implements Serializable {
         this.email = email;
         this.manage = manage;
     }
-
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Manage getManage() {
-        return manage;
-    }
-
-    public void setManage(Manage userType) {
-        this.manage = userType;
-    }
+    public User() {}
 }
