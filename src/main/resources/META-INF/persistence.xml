@@ -4,6 +4,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>org.example.taskmanager.entity.User</class>
         <class>org.example.taskmanager.entity.Task</class>
+        <class>org.example.taskmanager.entity.Tage</class>
         <properties>
             <!-- JDBC Database connection settings -->
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/jeeCrud"/>

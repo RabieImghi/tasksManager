@@ -4,9 +4,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.taskmanager.util.TaskStatus;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tasks")
@@ -19,7 +22,17 @@ public class Task implements Serializable {
     private String description;
     private LocalDate creationDate;
     private LocalDate endDate;
-    private boolean isCompleted;
+
+    @ManyToMany
+    @JoinTable(
+            name = "task_tag",
+            joinColumns = @JoinColumn(name = "tasks_id"),
+            inverseJoinColumns = @JoinColumn(name = "tage_id")
+    )
+    private List<Tage> tages;
+
+    @Enumerated(EnumType.STRING)
+    private TaskStatus isCompleted;
     private boolean isChanged;
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -28,7 +41,7 @@ public class Task implements Serializable {
     @JoinColumn(name = "assignee_to")
     private User assigneeTo;
 
-    public Task(String title, String description, LocalDate creationDate, LocalDate endDate, boolean isCompleted, boolean isChanged, User user, User assigneeTo) {
+    public Task(String title, String description, LocalDate creationDate, LocalDate endDate, TaskStatus isCompleted, boolean isChanged, User user, User assigneeTo) {
         this.title = title;
         this.description = description;
         this.creationDate = creationDate;

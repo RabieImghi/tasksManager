@@ -2,8 +2,8 @@
 <!-- saved from url=(0062)https://pixelwibes.com/template/my-task/html/dist/tickets.html -->
 <html class="no-js" lang="en" dir="ltr">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>DevSync</title>
@@ -15,52 +15,71 @@
     <link rel="stylesheet" href="./admin/icofont/icofont.css">
     <!-- project css file  -->
     <link rel="stylesheet" href="./admin/__ My-Task__ Tickets_files/my-task.style.min.css">
-<style type="text/css" id="operaUserStyle"></style><script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-bf24a88e.js.téléchargé"></script><script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-71978bb6.js.téléchargé"></script><script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-7c2f6ba4.js.téléchargé"></script><script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-48f3b594.js.téléchargé"></script><script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-4fe9d5dd.js.téléchargé"></script><script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-2d0b9454.js.téléchargé"></script><script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-24d8db78.js.téléchargé"></script><style type="text/css">#v5fvd7tj2j81727946316564 {outline:none !important;
-visibility:visible !important;
-resize:none !important;
-box-shadow:none !important;
-overflow:visible !important;
-background:none !important;
-opacity:1 !important;
-filter:alpha(opacity=100) !important;
--ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity 1}) !important;
--mz-opacity:1 !important;
--khtml-opacity:1 !important;
-top:auto !important;
-right:0px !important;
-bottom:0px !important;
-left:auto !important;
-position:fixed !important;
-border:0 !important;
-min-height:0px  !important;
-min-width:0px  !important;
-max-height:none  !important;
-max-width:none  !important;
-padding:0px !important;
-margin:0px !important;
--moz-transition-property:none !important;
--webkit-transition-property:none !important;
--o-transition-property:none !important;
-transition-property:none !important;
-transform:none !important;
--webkit-transform:none !important;
--ms-transform:none !important;
-width:auto !important;
-height:auto  !important;
-display:none !important;
-z-index:2000000000 !important;
-background-color:transparent !important;
-cursor:none !important;
-float:none !important;
-border-radius:unset !important;
-pointer-events:auto !important;
-clip:auto !important;
-color-scheme:light !important;}#v5fvd7tj2j81727946316564.widget-hidden {display: none !important;}#v5fvd7tj2j81727946316564.widget-visible {display: block !important;}
-@media print{
- #v5fvd7tj2j81727946316564.widget-visible { 
-display: none !important;
- }
-}</style><script src="./admin/__ My-Task__ Tickets_files/emojione.min.js.téléchargé" type="text/javascript" async="" defer=""></script><script src="./admin/__ My-Task__ Tickets_files/emojione.min.js.téléchargé" type="text/javascript" async="" defer=""></script><style type="text/css">@keyframes tawkMaxOpen{0%{opacity:0;transform:translate(0, 30px);;}to{opacity:1;transform:translate(0, 0px);}}@-moz-keyframes tawkMaxOpen{0%{opacity:0;transform:translate(0, 30px);;}to{opacity:1;transform:translate(0, 0px);}}@-webkit-keyframes tawkMaxOpen{0%{opacity:0;transform:translate(0, 30px);;}to{opacity:1;transform:translate(0, 0px);}}#zupmpvmhcq6g1727946316587.open{animation : tawkMaxOpen .25s ease!important;}@keyframes tawkMaxClose{from{opacity: 1;transform:translate(0, 0px);;}to{opacity: 0;transform:translate(0, 30px);;}}@-moz-keyframes tawkMaxClose{from{opacity: 1;transform:translate(0, 0px);;}to{opacity: 0;transform:translate(0, 30px);;}}@-webkit-keyframes tawkMaxClose{from{opacity: 1;transform:translate(0, 0px);;}to{opacity: 0;transform:translate(0, 30px);;}}#zupmpvmhcq6g1727946316587.closed{animation: tawkMaxClose .25s ease!important}</style></head>
+    <style type="text/css" id="operaUserStyle"></style>
+    <script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-bf24a88e.js.téléchargé"></script>
+    <script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-71978bb6.js.téléchargé"></script>
+    <script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-7c2f6ba4.js.téléchargé"></script>
+    <script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-48f3b594.js.téléchargé"></script>
+    <script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-4fe9d5dd.js.téléchargé"></script>
+    <script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-2d0b9454.js.téléchargé"></script>
+    <script charset="utf-8" src="./admin/__ My-Task__ Tickets_files/twk-chunk-24d8db78.js.téléchargé"></script>
+    <style type="text/css">
+        #v5fvd7tj2j81727946316564 {
+            outline:none !important;
+            visibility:visible !important;
+            resize:none !important;
+            box-shadow:none !important;
+            overflow:visible !important;
+            background:none !important;
+            opacity:1 !important;
+            filter:alpha(opacity=100) !important;
+            -ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity 1}) !important;
+            -mz-opacity:1 !important;
+            -khtml-opacity:1 !important;
+            top:auto !important;
+            right:0px !important;
+            bottom:0px !important;
+            left:auto !important;
+            position:fixed !important;
+            border:0 !important;
+            min-height:0px  !important;
+            min-width:0px  !important;
+            max-height:none  !important;
+            max-width:none  !important;
+            padding:0px !important;
+            margin:0px !important;
+            -moz-transition-property:none !important;
+            -webkit-transition-property:none !important;
+            -o-transition-property:none !important;
+            transition-property:none !important;
+            transform:none !important;
+            -webkit-transform:none !important;
+            -ms-transform:none !important;
+            width:auto !important;
+            height:auto  !important;
+            display:none !important;
+            z-index:2000000000 !important;
+            background-color:transparent !important;
+            cursor:none !important;
+            float:none !important;
+            border-radius:unset !important;
+            pointer-events:auto !important;
+            clip:auto !important;
+            color-scheme:light !important;
+        }
+        #v5fvd7tj2j81727946316564.widget-hidden {
+            display: none !important;
+        }
+        #v5fvd7tj2j81727946316564.widget-visible {
+            display: block !important;
+        }
+        @media print{
+             #v5fvd7tj2j81727946316564.widget-visible {
+                display: none !important;
+             }
+        }
+    </style>
+    <script src="./admin/__ My-Task__ Tickets_files/emojione.min.js.téléchargé" type="text/javascript" async="" defer=""></script><script src="./admin/__ My-Task__ Tickets_files/emojione.min.js.téléchargé" type="text/javascript" async="" defer=""></script><style type="text/css">@keyframes tawkMaxOpen{0%{opacity:0;transform:translate(0, 30px);;}to{opacity:1;transform:translate(0, 0px);}}@-moz-keyframes tawkMaxOpen{0%{opacity:0;transform:translate(0, 30px);;}to{opacity:1;transform:translate(0, 0px);}}@-webkit-keyframes tawkMaxOpen{0%{opacity:0;transform:translate(0, 30px);;}to{opacity:1;transform:translate(0, 0px);}}#zupmpvmhcq6g1727946316587.open{animation : tawkMaxOpen .25s ease!important;}@keyframes tawkMaxClose{from{opacity: 1;transform:translate(0, 0px);;}to{opacity: 0;transform:translate(0, 30px);;}}@-moz-keyframes tawkMaxClose{from{opacity: 1;transform:translate(0, 0px);;}to{opacity: 0;transform:translate(0, 30px);;}}@-webkit-keyframes tawkMaxClose{from{opacity: 1;transform:translate(0, 0px);;}to{opacity: 0;transform:translate(0, 30px);;}}#zupmpvmhcq6g1727946316587.closed{animation: tawkMaxClose .25s ease!important}</style></head>
 <body data-mytask="theme-indigo" class="" style="">
 
 <div id="mytask-layout">
@@ -321,6 +340,14 @@ display: none !important;
                                     </c:forEach>
                                 </select>
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label">List Tags</label>
+                                <select class="form-multi-select form-control" multiple data-coreui-search="true">
+                                    <option value="0">Angular</option>
+                                    <option value="1" disabled>Bootstrap</option>
+                                    <option value="2">React.js</option>
+                                    <option value="3">Vue.js</option>
+                                </select>
                             <div class="col-md-12">
                                 <label for="addnote" class="form-label">Description</label>
                                 <textarea name="description" class="form-control" id="addnote" rows="3"></textarea>
@@ -341,57 +368,7 @@ display: none !important;
 
     </div>
 
-    <!-- start: template setting, and more. -->
-	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas_setting" aria-labelledby="offcanvas_setting">
-		<div class="offcanvas-header">
-			<h5 class="offcanvas-title">Template Setting</h5>
-			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-		</div>
-		<div class="offcanvas-body d-flex flex-column">
-			<div class="mb-4">
-				<h6>Set Theme Color</h6>
-				<ul class="choose-skin list-unstyled mb-0">
-					<li data-theme="ValenciaRed"><div style="--mytask-theme-color: #D63B38;"></div></li>
-					<li data-theme="SunOrange"><div style="--mytask-theme-color: #F7A614;"></div></li>
-					<li data-theme="AppleGreen"><div style="--mytask-theme-color: #5BC43A;"></div></li>
-					<li data-theme="CeruleanBlue"><div style="--mytask-theme-color: #00B8D6;"></div></li>
-					<li data-theme="Mariner"><div style="--mytask-theme-color: #0066FE;"></div></li>
-					<li data-theme="PurpleHeart" class="active"><div style="--mytask-theme-color: #6238B3;"></div></li>
-					<li data-theme="FrenchRose"><div style="--mytask-theme-color: #EB5393;"></div></li>
-				</ul>
-			</div>
-            <div class="mb-4 flex-grow-1">
-				<h6>Set Theme Light/Dark/RTL</h6>
-				<!-- Theme: Switch Theme -->
-                <ul class="list-unstyled mb-0">
-                    <li>
-                        <div class="form-check form-switch theme-switch">
-                            <input class="form-check-input fs-6" type="checkbox" role="switch" id="theme-switch">
-                            <label class="form-check-label mx-2" for="theme-switch">Enable Dark Mode!</label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check form-switch theme-rtl">
-                            <input class="form-check-input fs-6" type="checkbox" role="switch" id="theme-rtl">
-                            <label class="form-check-label mx-2" for="theme-rtl">Enable RTL Mode!</label>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-check form-switch monochrome-toggle">
-                            <input class="form-check-input fs-6" type="checkbox" role="switch" id="monochrome">
-                            <label class="form-check-label mx-2" for="monochrome">Monochrome Mode</label>
-                        </div>
-                    </li>
-                </ul>
-			</div>
-			<div class="d-flex">
-				<a href="https://themeforest.net/item/mytask-hr-project-management-admin-template/31974551" class="btn w-100 me-1 py-2 btn-primary">Buy Now</a>
-				<a href="https://themeforest.net/user/pixelwibes/portfolio" class="btn w-100 ms-1 py-2 btn-dark">View Portfolio</a>
-			</div>
-		</div>
-	</div>
 </div>
- 
 <!-- Jquery Core Js -->
 <script src="./admin/__ My-Task__ Tickets_files/twk-main.js.téléchargé" charset="UTF-8" crossorigin="*"></script><script src="./admin/__ My-Task__ Tickets_files/twk-vendor.js.téléchargé" charset="UTF-8" crossorigin="*"></script><script src="./admin/__ My-Task__ Tickets_files/twk-chunk-vendors.js.téléchargé" charset="UTF-8" crossorigin="*"></script><script src="./admin/__ My-Task__ Tickets_files/twk-chunk-common.js.téléchargé" charset="UTF-8" crossorigin="*"></script><script src="./admin/__ My-Task__ Tickets_files/twk-runtime.js.téléchargé" charset="UTF-8" crossorigin="*"></script><script src="./admin/__ My-Task__ Tickets_files/twk-app.js.téléchargé" charset="UTF-8" crossorigin="*"></script><script async="" src="./admin/__ My-Task__ Tickets_files/1f3d4os21" charset="UTF-8" crossorigin="*"></script><script src="./admin/__ My-Task__ Tickets_files/libscripts.bundle.js.téléchargé"></script>
 
@@ -422,6 +399,6 @@ display: none !important;
         } );
     });
 </script>
-
-
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.1.2/dist/js/coreui.min.js" integrity="sha384-kiD3MgQ2eSqSjSfkoKS7/ipCvMvkfmpWHk3WRppeqnYxCVF0wQ+7gHzkXfJyvHbQ" crossorigin="anonymous"></script>
 <script async="" charset="UTF-8" src="./admin/__ My-Task__ Tickets_files/en.js.téléchargé"></script><div id="v5fvd7tj2j81727946316564" class="widget-visible"><iframe src="./admin/__ My-Task__ Tickets_files/saved_resource.html" frameborder="0" scrolling="no" width="64px" height="60px" style="outline:none !important; visibility:visible !important; resize:none !important; box-shadow:none !important; overflow:visible !important; background:none !important; opacity:1 !important; filter:alpha(opacity=100) !important; -ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity 1}) !important; -mz-opacity:1 !important; -khtml-opacity:1 !important; top:auto !important; right:20px !important; bottom:20px !important; left:auto !important; position:fixed !important; border:0 !important; min-height:60px !important; min-width:64px !important; max-height:60px !important; max-width:64px !important; padding:0 !important; margin:0 !important; -moz-transition-property:none !important; -webkit-transition-property:none !important; -o-transition-property:none !important; transition-property:none !important; transform:none !important; -webkit-transform:none !important; -ms-transform:none !important; width:64px !important; height:60px !important; display:block !important; z-index:1000001 !important; background-color:transparent !important; cursor:none !important; float:none !important; border-radius:unset !important; pointer-events:auto !important; clip:auto !important; color-scheme:light !important;" id="v7oi33kqereo1727946316569" class="" title="chat widget"></iframe><iframe src="./admin/__ My-Task__ Tickets_files/saved_resource(1).html" frameborder="0" scrolling="no" width="350px" height="520px" style="outline:none !important; visibility:visible !important; resize:none !important; box-shadow:none !important; overflow:visible !important; background:none !important; opacity:1 !important; filter:alpha(opacity=100) !important; -ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity 1}) !important; -mz-opacity:1 !important; -khtml-opacity:1 !important; top:auto !important; right:10px !important; bottom:90px !important; left:auto !important; position:fixed !important; border:0 !important; min-height:520px !important; min-width:350px !important; max-height:520px !important; max-width:350px !important; padding:0 !important; margin:0 !important; -moz-transition-property:none !important; -webkit-transition-property:none !important; -o-transition-property:none !important; transition-property:none !important; transform:none !important; -webkit-transform:none !important; -ms-transform:none !important; width:350px !important; height:520px !important; display:none !important; z-index:1000002 !important; background-color:transparent !important; cursor:none !important; float:none !important; border-radius:5px !important; pointer-events:auto !important; clip:auto !important; color-scheme:light !important;" id="zupmpvmhcq6g1727946316587" class="" title="chat widget"></iframe><iframe src="./admin/__ My-Task__ Tickets_files/saved_resource(2).html" frameborder="0" scrolling="no" width="360px" height="145px" style="outline:none !important; visibility:visible !important; resize:none !important; box-shadow:none !important; overflow:visible !important; background:none !important; opacity:1 !important; filter:alpha(opacity=100) !important; -ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity 1}) !important; -mz-opacity:1 !important; -khtml-opacity:1 !important; top:auto !important; right:20px !important; bottom:100px; left:auto !important; position:fixed !important; border:0 !important; min-height:145px !important; min-width:360px !important; max-height:145px !important; max-width:360px !important; padding:0 !important; margin:0 !important; -moz-transition-property:none !important; -webkit-transition-property:none !important; -o-transition-property:none !important; transition-property:none !important; transform:none !important; -webkit-transform:none !important; -ms-transform:none !important; width:360px !important; height:145px !important; display:none !important; z-index:auto !important; background-color:transparent !important; cursor:none !important; float:none !important; border-radius:unset !important; pointer-events:auto !important; clip:auto !important; color-scheme:light !important;" id="wnljrgp5uv1727946316577" class="" title="chat widget"></iframe><div id="chat-bubble"></div></div></body></html>

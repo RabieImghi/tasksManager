@@ -7,6 +7,7 @@ import jakarta.persistence.Persistence;
 import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.repository.impl.TaskRepositoryImpl;
 
+import java.util.List;
 import java.util.Optional;
 
 public class TaskRepository implements TaskRepositoryImpl {
@@ -31,6 +32,38 @@ public class TaskRepository implements TaskRepositoryImpl {
             return Optional.of(task);
         } catch (Exception e) {
             if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+
+    public List<Task> findAll() {
+        EntityTransaction transaction =  entityManager.getTransaction();
+        try {
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            return entityManager.createQuery("from Task", Task.class).getResultList();
+        }catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+    public Optional<Task> findById(Long id){
+        EntityTransaction transaction =  entityManager.getTransaction();
+        try {
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            Task task= entityManager.createQuery("from Task where id = :id", Task.class)
+                    .setParameter("id",id)
+                    .getResultList().get(0);
+            return Optional.of(task);
+        }catch (Exception e) {
+            if(transaction.isActive()){
                 transaction.rollback();
             }
             throw e;

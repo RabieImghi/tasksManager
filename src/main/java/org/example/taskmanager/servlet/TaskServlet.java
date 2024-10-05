@@ -11,16 +11,19 @@ import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.service.TaskService;
 import org.example.taskmanager.service.UserService;
+import org.example.taskmanager.util.TaskStatus;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 
 @WebServlet(name = "Task", value = "Task")
 public class TaskServlet extends HttpServlet {
     UserService userService;
     TaskService taskService;
+
 
     @Override
     public void init() throws ServletException {
@@ -31,9 +34,35 @@ public class TaskServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        request.setAttribute("user", user);
-        RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ Tickets.jsp");
-        tasks.forward(request, response);
+        if(request.getParameter("action")!=null) {
+            String action = request.getParameter("action");
+            String idTask = request.getParameter("id");
+            Long id = Long.parseLong(idTask);
+            switch (action){
+                case "deleteTask":{
+                    Optional<Task> task= taskService.findById(id);
+                    task.ifPresent(task1 -> {
+
+                    });
+                }break;
+                case "updateTask":{
+                    Optional<Task> task= taskService.findById(id);
+                    if(task.isPresent()) {
+                        request.setAttribute("task", task.get());
+                        request.setAttribute("userList",userService.getAll());
+                        RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ EditTickets.jsp");
+                        tasks.forward(request, response);
+                    }
+                }break;
+            }
+        }else {
+            request.setAttribute("user", user);
+            List<Task> taskList = taskService.findAll();
+            request.setAttribute("taskList", taskList);
+            RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ Tickets.jsp");
+            tasks.forward(request, response);
+        }
+
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -44,6 +73,7 @@ public class TaskServlet extends HttpServlet {
             case "Add Task" : {
                 request.setAttribute("userList", this.userService.getAll());
                 request.setAttribute("user", user);
+                request.setAttribute("tagsList", ;
 
                 RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ AddTickets.jsp");
                 tasks.forward(request, response);
@@ -60,18 +90,21 @@ public class TaskServlet extends HttpServlet {
                 Long userAssigneeId = Long.parseLong(assignee);
                 Optional<User> userCreat = userService.getById(userCreatId);
                 Optional<User> userAssignee = userService.getById(userAssigneeId);
-                Long daysBetween = ChronoUnit.DAYS.between(endDate,LocalDate.now());
+                Long daysBetween = ChronoUnit.DAYS.between(LocalDate.now(),endDate);
                 request.setAttribute("userList", this.userService.getAll());
                 RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ AddTickets.jsp");
-                if(creationDate.isAfter(endDate) || creationDate.isAfter(LocalDate.now()) ){
-                    request.setAttribute("errorDate", "Invalid Start Date");
+                if(creationDate.isAfter(endDate)){
+                    request.setAttribute("errorDate", "Invalid Start Date ! start date should be before end date");
+                    tasks.forward(request, response);
+                }else if(creationDate.isBefore(LocalDate.now()) ){
+                    request.setAttribute("errorDate", "Invalid Start Date ! start date should be after or equal today");
                     tasks.forward(request, response);
                 }else if(daysBetween<=3){
                     request.setAttribute("errorDate", "Date must be 3 days before End Date");
                     tasks.forward(request, response);
                 } else{
                     if(userCreat.isPresent() && userAssignee.isPresent()){
-                        Task task = new Task(title,description,creationDate,endDate,false,false,userCreat.get(),userAssignee.get());
+                        Task task = new Task(title,description,creationDate,endDate, TaskStatus.EN_PROGRESS,false,userCreat.get(),userAssignee.get());
                         Optional<Task> task1= taskService.save(task);
                         task1.ifPresent(task2 -> {
                             try {
