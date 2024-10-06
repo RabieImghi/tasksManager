@@ -36,7 +36,7 @@ public class RegisterServlet extends HttpServlet {
         String password = request.getParameter("password");
         String typeUser = request.getParameter("typeUser");
         String submitType = request.getParameter("submit");
-        User user = new User(username,firstname,lastname, email, password, Manage.valueOf(typeUser));
+        User user = new User(username,firstname,lastname, password,email, Manage.valueOf(typeUser));
 
         RequestDispatcher loginDispatcher = request.getRequestDispatcher("index.jsp");
         RequestDispatcher registerDispatcher = request.getRequestDispatcher("register.jsp");
