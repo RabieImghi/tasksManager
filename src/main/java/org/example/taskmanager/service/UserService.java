@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.repository.UserRepository;
 import org.example.taskmanager.service.impl.UserServiceImpl;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,11 +36,14 @@ public class UserService implements UserServiceImpl {
     public Optional<User> login(String username, String password) throws Exception{
         Optional<User> user = userRepository.findByUsername(username);
         if(user.isPresent()){
-            if(user.get().getPassword().equals(password)){
+            if(isPasswordCorrect(password,user.get().getPassword())){
                 return user;
             }
         }
         return Optional.empty();
+    }
+    public boolean isPasswordCorrect(String normalPassword, String hashedPassword) {
+        return BCrypt.checkpw(normalPassword, hashedPassword);
     }
     public Optional<User> getById(Long id){
         return userRepository.findById(id);

@@ -1,6 +1,7 @@
 package org.example.taskmanager.entity;
 import jakarta.persistence.*;
 import org.example.taskmanager.util.Manage;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.Serializable;
 
@@ -38,7 +39,7 @@ public class User implements Serializable {
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.password = password;
+        this.password = hashPassword(password);
         this.email = email;
         this.manage = manage;
     }
@@ -48,6 +49,9 @@ public class User implements Serializable {
         return id;
     }
 
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
     public void setId(Long id) {
         this.id = id;
     }
