@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import org.example.taskmanager.entity.Tage;
 import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.repository.impl.TaskRepositoryImpl;
 
@@ -27,7 +28,19 @@ public class TaskRepository implements TaskRepositoryImpl {
             if (!transaction.isActive()) {
                 transaction.begin();
             }
+
+            if (task.getTages() != null) {
+                for (int i = 0; i < task.getTages().size(); i++) {
+                    Tage tag = task.getTages().get(i);
+                    if (tag.getId() != null) {
+                        task.getTages().set(i, entityManager.merge(tag));
+                    } else {
+                        entityManager.persist(tag);
+                    }
+                }
+            }
             entityManager.persist(task);
+
             transaction.commit();
             return Optional.of(task);
         } catch (Exception e) {

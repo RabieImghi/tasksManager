@@ -19,5 +19,9 @@ public class Tage {
     @ManyToMany(mappedBy = "tages")
     private List<Task> tasks;
 
-
+    public Tage(String name, List<Task> tasks) {
+        this.name = name;
+        this.tasks = tasks;
+    }
+    public Tage() {}
 }

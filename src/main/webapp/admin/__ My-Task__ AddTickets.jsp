@@ -342,11 +342,10 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">List Tags</label>
-                                <select class="form-multi-select form-control" multiple data-coreui-search="true">
-                                    <option value="0">Angular</option>
-                                    <option value="1" disabled>Bootstrap</option>
-                                    <option value="2">React.js</option>
-                                    <option value="3">Vue.js</option>
+                                <select class=" form-control" name="tages[]" multiple data-coreui-search="true">
+                                    <c:forEach var="tage" items="${tagesList}">
+                                        <option value="${tage.id}">${tage.name}</option>
+                                    </c:forEach>
                                 </select>
                             <div class="col-md-12">
                                 <label for="addnote" class="form-label">Description</label>

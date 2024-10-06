@@ -7,28 +7,36 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.taskmanager.entity.Tage;
 import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.entity.User;
+import org.example.taskmanager.service.TageService;
 import org.example.taskmanager.service.TaskService;
 import org.example.taskmanager.service.UserService;
 import org.example.taskmanager.util.TaskStatus;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "Task", value = "Task")
 public class TaskServlet extends HttpServlet {
     UserService userService;
     TaskService taskService;
-
+    TageService tageService;
 
     @Override
     public void init() throws ServletException {
         this.userService = new UserService();
         this.taskService = new TaskService();
+        this.tageService = new TageService();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -73,8 +81,7 @@ public class TaskServlet extends HttpServlet {
             case "Add Task" : {
                 request.setAttribute("userList", this.userService.getAll());
                 request.setAttribute("user", user);
-                request.setAttribute("tagsList", ;
-
+                request.setAttribute("tagesList", tageService.findAll());
                 RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ AddTickets.jsp");
                 tasks.forward(request, response);
             }
@@ -86,6 +93,10 @@ public class TaskServlet extends HttpServlet {
                 LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
                 String user_id = request.getParameter("user_id");
                 String assignee = request.getParameter("assigneeTo_id");
+                String[] selectedTages = request.getParameterValues("tages[]");
+                List<Long> tagesId = Arrays.stream(selectedTages)
+                        .map(id->Long.parseLong(id))
+                        .collect(Collectors.toList());
                 Long userCreatId = Long.parseLong(user_id);
                 Long userAssigneeId = Long.parseLong(assignee);
                 Optional<User> userCreat = userService.getById(userCreatId);
@@ -104,7 +115,12 @@ public class TaskServlet extends HttpServlet {
                     tasks.forward(request, response);
                 } else{
                     if(userCreat.isPresent() && userAssignee.isPresent()){
-                        Task task = new Task(title,description,creationDate,endDate, TaskStatus.EN_PROGRESS,false,userCreat.get(),userAssignee.get());
+                        List<Tage> listTage =new ArrayList<>();
+                        tagesId.forEach(tageId->{
+                            Optional<Tage> tage = tageService.findById(tageId);
+                            tage.ifPresent(listTage::add);
+                        });
+                        Task task = new Task(title,description,creationDate,endDate, TaskStatus.EN_PROGRESS,false,userCreat.get(),userAssignee.get(),listTage);
                         Optional<Task> task1= taskService.save(task);
                         task1.ifPresent(task2 -> {
                             try {
