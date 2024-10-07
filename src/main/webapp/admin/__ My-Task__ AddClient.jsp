@@ -214,37 +214,15 @@ display: none !important;
                         </div>
                         <div class="dropdown user-profile ml-2 ml-sm-3 d-flex align-items-center">
                             <div class="u-info me-2">
-                                <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold">Dylan Hunter</span></p>
-                                <small>Admin Profile</small>
+                                <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold">${user.firstname} ${user.lastname}</span></p>
+                                <small>${user.manage} Profile</small>
                             </div>
                             <a class="nav-link dropdown-toggle pulse p-0" href="https://pixelwibes.com/template/my-task/html/dist/tickets.html#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
                                 <img class="avatar lg rounded-circle img-thumbnail" src="./admin/__ My-Task__ Tickets_files/profile_av.png" alt="profile">
                             </a>
-                            <div class="dropdown-menu rounded-lg shadow border-0 dropdown-animation dropdown-menu-end p-0 m-0">
-                                <div class="card border-0 w280">
-                                    <div class="card-body pb-0">
-                                        <div class="d-flex py-1">
-                                            <img class="avatar rounded-circle" src="./admin/__ My-Task__ Tickets_files/profile_av.png" alt="profile">
-                                            <div class="flex-fill ms-3">
-                                                <p class="mb-0"><span class="font-weight-bold">Dylan Hunter</span></p>
-                                                <small class="">Dylan.hunter@gmail.com</small>
-                                            </div>
-                                        </div>
-                                        
-                                        <div><hr class="dropdown-divider border-dark"></div>
-                                    </div>
-                                    <div class="list-group m-2 ">
-                                        <a href="https://pixelwibes.com/template/my-task/html/dist/task.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-tasks fs-5 me-3"></i>My Task</a>
-                                        <a href="https://pixelwibes.com/template/my-task/html/dist/members.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-ui-user-group fs-6 me-3"></i>members</a>
-                                        <a href="https://pixelwibes.com/template/my-task/html/dist/ui-elements/auth-signin.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-logout fs-6 me-3"></i>Signout</a>
-                                        <div><hr class="dropdown-divider border-dark"></div>
-                                        <a href="https://pixelwibes.com/template/my-task/html/dist/ui-elements/auth-signup.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-contact-add fs-5 me-3"></i>Add personal account</a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="px-md-1">
-                            <a href="https://pixelwibes.com/template/my-task/html/dist/tickets.html#offcanvas_setting" data-bs-toggle="offcanvas" aria-expanded="false" title="template setting">
+                            <a href="User?action=logout" data-bs-toggle="offcanvas" aria-expanded="false" title="template setting">
                                 <svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                     <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"></path>

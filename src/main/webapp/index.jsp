@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +15,7 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card mt-5">
-        <c:if tset="${not empty message}">
+        <c:if test="${not empty message}">
           <div style="color: green">${message}</div>
         </c:if>
         <div class="card-header bg-primary text-white text-center">

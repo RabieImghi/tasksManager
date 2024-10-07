@@ -58,6 +58,7 @@ public class TaskServlet extends HttpServlet {
                     if(task.isPresent()) {
                         request.setAttribute("task", task.get());
                         request.setAttribute("userList",userService.getAll());
+                        request.setAttribute("tagesList",tageService.findAll());
                         RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ EditTickets.jsp");
                         tasks.forward(request, response);
                     }
@@ -86,59 +87,103 @@ public class TaskServlet extends HttpServlet {
                 tasks.forward(request, response);
             }
             break;
-            case "addTask" : {
-                String title = request.getParameter("title");
-                String description = request.getParameter("description");
-                LocalDate creationDate = LocalDate.parse(request.getParameter("creationDate"));
-                LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
-                String user_id = request.getParameter("user_id");
-                String assignee = request.getParameter("assigneeTo_id");
-                String[] selectedTages = request.getParameterValues("tages[]");
-                List<Long> tagesId = Arrays.stream(selectedTages)
-                        .map(id->Long.parseLong(id))
-                        .collect(Collectors.toList());
-                Long userCreatId = Long.parseLong(user_id);
-                Long userAssigneeId = Long.parseLong(assignee);
-                Optional<User> userCreat = userService.getById(userCreatId);
-                Optional<User> userAssignee = userService.getById(userAssigneeId);
-                Long daysBetween = ChronoUnit.DAYS.between(LocalDate.now(),endDate);
-                request.setAttribute("userList", this.userService.getAll());
-                RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ AddTickets.jsp");
-                if(creationDate.isAfter(endDate)){
-                    request.setAttribute("errorDate", "Invalid Start Date ! start date should be before end date");
-                    tasks.forward(request, response);
-                }else if(creationDate.isBefore(LocalDate.now()) ){
-                    request.setAttribute("errorDate", "Invalid Start Date ! start date should be after or equal today");
-                    tasks.forward(request, response);
-                }else if(daysBetween<=3){
-                    request.setAttribute("errorDate", "Date must be 3 days before End Date");
-                    tasks.forward(request, response);
-                } else{
-                    if(userCreat.isPresent() && userAssignee.isPresent()){
-                        List<Tage> listTage =new ArrayList<>();
-                        tagesId.forEach(tageId->{
-                            Optional<Tage> tage = tageService.findById(tageId);
-                            tage.ifPresent(listTage::add);
-                        });
-                        Task task = new Task(title,description,creationDate,endDate, TaskStatus.EN_PROGRESS,false,userCreat.get(),userAssignee.get(),listTage);
-                        Optional<Task> task1= taskService.save(task);
-                        task1.ifPresent(task2 -> {
-                            try {
-                                request.getRequestDispatcher("admin/__ My-Task__ AddTickets.jsp").forward(request,response);
-                            } catch (ServletException e) {
-                                throw new RuntimeException(e);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        });
-
-                    }
-                }
-
-
-
-
-            }
+            case "addTask" : addTask(request,response);
+            case "updateTask" : updateTask(request,response);
         }
     }
+
+    public void addTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        Optional<Task> task = getTaskInfo(request,response,false);
+        task.ifPresent(task1 -> {
+            Optional<Task> taskSaved = taskService.save(task1);
+            redirectToTasks(request, response, taskSaved);
+        });
+    }
+
+    private void redirectToTasks(HttpServletRequest request, HttpServletResponse response, Optional<Task> taskUpdated)
+    {
+        taskUpdated.ifPresent(task2 -> {
+            try {
+                request.setAttribute("taskList", taskService.findAll());
+                request.getRequestDispatcher("admin/__ My-Task__ Tickets.jsp").forward(request,response);
+            } catch (ServletException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    public void updateTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        Optional<Task> task = getTaskInfo(request,response,true);
+        task.ifPresent(task1 -> {
+            Optional<Task> taskUpdated = taskService.update(task1);
+            redirectToTasks(request, response, taskUpdated);
+        });
+    }
+
+    public Optional<Task> getTaskInfo(HttpServletRequest request, HttpServletResponse response ,boolean isUpdate) throws ServletException, IOException
+    {
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+        LocalDate creationDate = LocalDate.parse(request.getParameter("creationDate"));
+        LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
+        String user_id = request.getParameter("user_id");
+        String assignee = request.getParameter("assigneeTo_id");
+        String[] selectedTages = request.getParameterValues("tages[]");
+        List<Long> tagesId = Arrays.stream(selectedTages)
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
+        Long userCreatId = Long.parseLong(user_id);
+        Long userAssigneeId = Long.parseLong(assignee);
+        Optional<User> userCreat = userService.getById(userCreatId);
+        Optional<User> userAssignee = userService.getById(userAssigneeId);
+        List<Tage> listTage =new ArrayList<>();
+        tagesId.forEach(tageId->{
+            Optional<Tage> tage = tageService.findById(tageId);
+            tage.ifPresent(listTage::add);
+        });
+        checkDateValidate(request,response,isUpdate,creationDate,endDate);
+        if(!userCreat.isPresent() || !userAssignee.isPresent()){
+            request.getRequestDispatcher("admin/__ My-Task__ AddTickets.jsp").forward(request, response);
+        }
+        if (isUpdate){
+            String isCompleted = request.getParameter("isCompleted");
+            Long idTask= Long.parseLong(request.getParameter("idTask"));
+            Optional<Task> task = taskService.findById(idTask);
+            if(task.isPresent()){
+                Task task1 =task.get();
+                task1.setTitle(title);
+                task1.setDescription(description);
+                task1.setCreationDate(creationDate);
+                task1.setEndDate(endDate);
+                task1.setUser(userCreat.get());
+                task1.setAssigneeTo(userAssignee.get());
+                task1.setTages(listTage);
+                task1.setIsCompleted(TaskStatus.valueOf(isCompleted));
+                return task;
+            } return Optional.empty();
+
+        }else {
+            Task task = new Task(title,description,creationDate,endDate, TaskStatus.EN_PROGRESS,false,userCreat.get(),userAssignee.get(),listTage);
+            return Optional.of(task);
+        }
+
+    }
+    public void checkDateValidate(HttpServletRequest request, HttpServletResponse response ,boolean isUpdate,LocalDate creationDate,LocalDate endDate) throws ServletException, IOException
+    {
+        RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ AddTickets.jsp");
+        long daysBetween = ChronoUnit.DAYS.between(LocalDate.now(),endDate);
+        if(creationDate.isAfter(endDate)){
+            request.setAttribute("errorDate", "Invalid Start Date ! start date should be before end date");
+            tasks.forward(request, response);
+        }else if(creationDate.isBefore(LocalDate.now()) ){
+            request.setAttribute("errorDate", "Invalid Start Date ! start date should be after or equal today");
+            tasks.forward(request, response);
+        }else if(daysBetween<=3){
+            request.setAttribute("errorDate", "Date must be 3 days before End Date");
+            tasks.forward(request, response);
+        }
+    }
+
 }

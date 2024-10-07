@@ -25,4 +25,7 @@ public class TaskService implements TaskServiceImpl {
     public Optional<Task> findById(Long id) {
         return taskRepository.findById(id);
     }
+    public Optional<Task> update(Task task) {
+        return taskRepository.update(task);
+    }
 }

@@ -15,30 +15,18 @@ public class TaskRepository implements TaskRepositoryImpl {
 
     private EntityManagerFactory emf;
     private EntityManager entityManager;
+    EntityTransaction transaction;
 
 
     public TaskRepository() {
         this.emf = Persistence.createEntityManagerFactory("myJPAUnit");
         this.entityManager = emf.createEntityManager();
+        this.transaction =  entityManager.getTransaction();
     }
     @Override
     public Optional<Task> save(Task task) {
-        EntityTransaction transaction =  entityManager.getTransaction();
         try {
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
-
-            if (task.getTages() != null) {
-                for (int i = 0; i < task.getTages().size(); i++) {
-                    Tage tag = task.getTages().get(i);
-                    if (tag.getId() != null) {
-                        task.getTages().set(i, entityManager.merge(tag));
-                    } else {
-                        entityManager.persist(tag);
-                    }
-                }
-            }
+            updateTasksTags(task);
             entityManager.persist(task);
 
             transaction.commit();
@@ -52,7 +40,6 @@ public class TaskRepository implements TaskRepositoryImpl {
     }
 
     public List<Task> findAll() {
-        EntityTransaction transaction =  entityManager.getTransaction();
         try {
             if (!transaction.isActive()) {
                 transaction.begin();
@@ -66,7 +53,6 @@ public class TaskRepository implements TaskRepositoryImpl {
         }
     }
     public Optional<Task> findById(Long id){
-        EntityTransaction transaction =  entityManager.getTransaction();
         try {
             if (!transaction.isActive()) {
                 transaction.begin();
@@ -82,4 +68,38 @@ public class TaskRepository implements TaskRepositoryImpl {
             throw e;
         }
     }
+
+    public Optional<Task> update(Task task) {
+        try {
+            updateTasksTags(task);
+
+            entityManager.merge(task);
+
+            transaction.commit();
+            return Optional.of(task);
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+
+    private void updateTasksTags(Task task) {
+        if (!transaction.isActive()) {
+            transaction.begin();
+        }
+
+        if (task.getTages() != null) {
+            for (int i = 0; i < task.getTages().size(); i++) {
+                Tage tag = task.getTages().get(i);
+                if (tag.getId() != null) {
+                    task.getTages().set(i, entityManager.merge(tag));
+                } else {
+                    entityManager.persist(tag);
+                }
+            }
+        }
+    }
+
 }

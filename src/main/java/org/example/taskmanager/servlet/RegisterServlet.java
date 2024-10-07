@@ -13,6 +13,7 @@ import org.example.taskmanager.util.Manage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Optional;
 
 @WebServlet(name = "Register", value = "Register")
 public class RegisterServlet extends HttpServlet {
@@ -46,10 +47,12 @@ public class RegisterServlet extends HttpServlet {
                 if (session.getAttribute("emptyUser") != null){
                     message = (String) session.getAttribute("emptyUser");
                     session.removeAttribute("emptyUser");
-                }else if(session.getAttribute("existEmail") != null) {
+                }
+                else if(session.getAttribute("existEmail") != null) {
                     message = (String) session.getAttribute("existEmail");
                     session.removeAttribute("existEmail");
-                }else if(session.getAttribute("existUsername") != null) {
+                }
+                else if(session.getAttribute("existUsername") != null) {
                     message = (String) session.getAttribute("existUsername");
                     session.removeAttribute("existUsername");
                 }
