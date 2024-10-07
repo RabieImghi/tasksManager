@@ -1,22 +1,8 @@
-<%@ page import="org.example.taskmanager.entity.User" %>
 <!DOCTYPE html>
 <!-- saved from url=(0062)https://pixelwibes.com/template/my-task/html/dist/tickets.html -->
 <html class="no-js" lang="en" dir="ltr">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-    HttpSession sessionHttp = request.getSession();
-    User user = (User) sessionHttp.getAttribute("user");
-    if(user != null) {
-        if(user.getManage().equals("MANAGER")){
-            response.sendRedirect("User?action=dashboard");
-        } else {
-            response.sendRedirect("Task");
-        }
-    }else {
-        response.sendRedirect("index.jsp");
-    }
 
-%>
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">

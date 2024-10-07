@@ -1,20 +1,6 @@
-<%@ page import="org.example.taskmanager.entity.User" %>
 <html class="no-js" lang="en" dir="ltr">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-    HttpSession sessionHttp = request.getSession();
-    User user = (User) sessionHttp.getAttribute("user");
-    if(user != null) {
-        if(user.getManage().equals("MANAGER")){
-            response.sendRedirect("User?action=dashboard");
-        } else {
-            response.sendRedirect("Task");
-        }
-    }else {
-        response.sendRedirect("index.jsp");
-    }
 
-%>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -293,7 +279,9 @@
                     <div class="border-0 mb-4">
                         <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                             <h3 class="fw-bold mb-0">Tickets</h3>
-
+                            <c:if test="${not empty error}">
+                                <span class="text-bg-danger">${error}</span>
+                            </c:if>
                             <form method="post" action="Task">
                                 <div class="col-auto d-flex w-sm-100">
                                     <input type="submit" name="actionType" value="Add Task" class="btn btn-dark btn-set-task w-sm-100">
@@ -335,6 +323,9 @@
                                                             <th class="dt-body-right sorting" tabindex="0" aria-controls="myProjectTable" rowspan="1" colspan="1" style="width: 101.2px;" aria-label="Actions: activate to sort column ascending">
                                                                 Actions
                                                             </th>
+                                                            <th class="sorting" tabindex="0" aria-controls="myProjectTable" rowspan="1" colspan="1" style="width: 92.2px;" aria-label="Status: activate to sort column ascending">
+                                                                Change Task
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -364,19 +355,33 @@
                                                             </td>
                                                              <td class=" dt-body-right">
                                                                  <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                                                     <c:if test="${task.user.id == user.id && user.manage=='USER'}">
-                                                                         <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
-                                                                         <a href="Task?id=${task.id}&action=deleteTask" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                     <c:if test="${user.manage=='USER' && (task.user.id == user.id || task.assigneeTo.id == user.id) }">
+                                                                             <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
+                                                                             <a href="Task?id=${task.id}&action=deleteTask" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
                                                                      </c:if>
-                                                                     <c:if test="${task.assigneeTo.id == user.id}">
-                                                                         <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
-                                                                         <a href="Task?id=${task.id}&action=deleteTask&token=true" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                     <c:if test="${user.manage=='MANAGER' && task.user.id == user.id}">
+                                                                             <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
+                                                                             <a href="Task?id=${task.id}&action=deleteTask" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
                                                                      </c:if>
+
+
                                                                      <c:if test="${task.assigneeTo.id != user.id && task.user.id != user.id }">
                                                                          <span class="text-danger">You don't have access</span>
                                                                      </c:if>
                                                                  </div>
                                                              </td>
+                                                            <td class=" dt-body-right">
+                                                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                                                    <c:if test="${task.assigneeTo.id == user.id }">
+                                                                        <a href="taskHistory?taskId=${task.id}&type=change" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
+                                                                    </c:if>
+                                                                    <c:if test="${task.assigneeTo.id != user.id && task.user.id != user.id }">
+
+                                                                    </c:if>
+                                                                </div>
+                                                            </td>
+
+
                                                          </tr>
                                                     </c:forEach>
                                                     </tbody>

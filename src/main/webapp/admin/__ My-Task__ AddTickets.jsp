@@ -1,22 +1,8 @@
-<%@ page import="org.example.taskmanager.entity.User" %>
 <!DOCTYPE html>
 <!-- saved from url=(0062)https://pixelwibes.com/template/my-task/html/dist/tickets.html -->
 <html class="no-js" lang="en" dir="ltr">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-    HttpSession sessionHttp = request.getSession();
-    User user = (User) sessionHttp.getAttribute("user");
-    if(user != null) {
-        if(user.getManage().equals("MANAGER")){
-            response.sendRedirect("User?action=dashboard");
-        } else {
-            response.sendRedirect("Task");
-        }
-    }else {
-        response.sendRedirect("index.jsp");
-    }
 
-%>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -181,66 +167,6 @@
                                             <span>Notifications</span>
                                             <span class="badge text-white">11</span>
                                         </h5>
-                                    </div>
-                                    <div class="tab-content card-body">
-                                        <div class="tab-pane fade show active">
-                                            <ul class="list-unstyled list mb-0">
-                                                <li class="py-2 mb-1 border-bottom">
-                                                    <a href="javascript:void(0);" class="d-flex">
-                                                        <img class="avatar rounded-circle" src="./admin/__ My-Task__ Tickets_files/avatar1.jpg" alt="">
-                                                        <div class="flex-fill ms-2">
-                                                            <p class="d-flex justify-content-between mb-0 "><span class="font-weight-bold">Dylan Hunter</span> <small>2MIN</small></p>
-                                                            <span class="">Added  2021-02-19 my-Task ui/ux Design <span class="badge bg-success">Review</span></span>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="py-2 mb-1 border-bottom">
-                                                    <a href="javascript:void(0);" class="d-flex">
-                                                        <div class="avatar rounded-circle no-thumbnail">DF</div>
-                                                        <div class="flex-fill ms-2">
-                                                            <p class="d-flex justify-content-between mb-0 "><span class="font-weight-bold">Diane Fisher</span> <small>13MIN</small></p>
-                                                            <span class="">Task added Get Started with Fast Cad project</span>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="py-2 mb-1 border-bottom">
-                                                    <a href="javascript:void(0);" class="d-flex">
-                                                        <img class="avatar rounded-circle" src="./admin/__ My-Task__ Tickets_files/avatar3.jpg" alt="">
-                                                        <div class="flex-fill ms-2">
-                                                            <p class="d-flex justify-content-between mb-0 "><span class="font-weight-bold">Andrea Gill</span> <small>1HR</small></p>
-                                                            <span class="">Quality Assurance Task Completed</span>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="py-2 mb-1 border-bottom">
-                                                    <a href="javascript:void(0);" class="d-flex">
-                                                        <img class="avatar rounded-circle" src="./admin/__ My-Task__ Tickets_files/avatar5.jpg" alt="">
-                                                        <div class="flex-fill ms-2">
-                                                            <p class="d-flex justify-content-between mb-0 "><span class="font-weight-bold">Diane Fisher</span> <small>13MIN</small></p>
-                                                            <span class="">Add New Project for App Developemnt</span>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="py-2 mb-1 border-bottom">
-                                                    <a href="javascript:void(0);" class="d-flex">
-                                                        <img class="avatar rounded-circle" src="./admin/__ My-Task__ Tickets_files/avatar6.jpg" alt="">
-                                                        <div class="flex-fill ms-2">
-                                                            <p class="d-flex justify-content-between mb-0 "><span class="font-weight-bold">Andrea Gill</span> <small>1HR</small></p>
-                                                            <span class="">Add Timesheet For Rhinestone project</span>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="py-2">
-                                                    <a href="javascript:void(0);" class="d-flex">
-                                                        <img class="avatar rounded-circle" src="./admin/__ My-Task__ Tickets_files/avatar7.jpg" alt="">
-                                                        <div class="flex-fill ms-2">
-                                                            <p class="d-flex justify-content-between mb-0 "><span class="font-weight-bold">Zoe Wright</span> <small class="">1DAY</small></p>
-                                                            <span class="">Add Calander Event</span>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
                                     </div>
                                     <a class="card-footer text-center border-top-0" href="https://pixelwibes.com/template/my-task/html/dist/tickets.html#"> View all notifications</a>
                                 </div>

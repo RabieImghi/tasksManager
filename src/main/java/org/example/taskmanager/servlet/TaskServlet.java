@@ -140,6 +140,10 @@ public class TaskServlet extends HttpServlet {
         String user_id = request.getParameter("user_id");
         String assignee = request.getParameter("assigneeTo_id");
         String[] selectedTages = request.getParameterValues("tages[]");
+        if(selectedTages.length<=1){
+            request.setAttribute("errorDate", "Please select at least tow Tage");
+            request.getRequestDispatcher("admin/__ My-Task__ AddTickets.jsp").forward(request, response);
+        }
         List<Long> tagesId = Arrays.stream(selectedTages)
                 .map(Long::parseLong)
                 .collect(Collectors.toList());

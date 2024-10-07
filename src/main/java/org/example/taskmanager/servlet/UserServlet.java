@@ -67,6 +67,8 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("userList", usersList);
             users.forward(request, response);
         } else if(action.equals("logout")){
+            //clear session
+            session.invalidate();
             response.sendRedirect("Login");
         }
 
