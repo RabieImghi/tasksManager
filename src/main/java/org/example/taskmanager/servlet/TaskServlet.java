@@ -39,7 +39,8 @@ public class TaskServlet extends HttpServlet {
         this.tageService = new TageService();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
+    {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if(request.getParameter("action")!=null) {
@@ -50,7 +51,14 @@ public class TaskServlet extends HttpServlet {
                 case "deleteTask":{
                     Optional<Task> task= taskService.findById(id);
                     task.ifPresent(task1 -> {
-
+                        taskService.delete(task1).ifPresent(task2 -> {
+                            try {
+                                request.setAttribute("taskList", taskService.findAll());
+                                request.getRequestDispatcher("admin/__ My-Task__ Tickets.jsp").forward(request,response);
+                            } catch (ServletException | IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
                     });
                 }break;
                 case "updateTask":{
@@ -73,7 +81,8 @@ public class TaskServlet extends HttpServlet {
         }
 
     }
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");

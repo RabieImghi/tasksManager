@@ -10,4 +10,5 @@ public interface TaskRepositoryImpl {
     List<Task> findAll();
     Optional<Task> findById(Long id);
     Optional<Task> update(Task task);
+    Optional<Task> delete(Task task);
 }

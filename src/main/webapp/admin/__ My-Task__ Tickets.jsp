@@ -1,8 +1,21 @@
-<!DOCTYPE html>
-<!-- saved from url=(0062)https://pixelwibes.com/template/my-task/html/dist/tickets.html -->
+<%@ page import="org.example.taskmanager.entity.User" %>
 <html class="no-js" lang="en" dir="ltr">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%
+    HttpSession sessionHttp = request.getSession();
+    User user = (User) sessionHttp.getAttribute("user");
+    if(user != null) {
+        if(user.getManage().equals("MANAGER")){
+            response.sendRedirect("User?action=dashboard");
+        } else {
+            response.sendRedirect("Task");
+        }
+    }else {
+        response.sendRedirect("index.jsp");
+    }
+
+%>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -351,8 +364,17 @@
                                                             </td>
                                                              <td class=" dt-body-right">
                                                                  <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                                                     <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
-                                                                     <a href="Task?id=${task.id}&action=deleteTask" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                     <c:if test="${task.user.id == user.id && user.manage=='USER'}">
+                                                                         <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
+                                                                         <a href="Task?id=${task.id}&action=deleteTask" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                     </c:if>
+                                                                     <c:if test="${task.assigneeTo.id == user.id}">
+                                                                         <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
+                                                                         <a href="Task?id=${task.id}&action=deleteTask&token=true" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                     </c:if>
+                                                                     <c:if test="${task.assigneeTo.id != user.id && task.user.id != user.id }">
+                                                                         <span class="text-danger">You don't have access</span>
+                                                                     </c:if>
                                                                  </div>
                                                              </td>
                                                          </tr>

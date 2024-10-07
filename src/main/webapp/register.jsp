@@ -1,4 +1,17 @@
+<%@ page import="org.example.taskmanager.entity.User" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+    HttpSession sessionHttp = request.getSession();
+    User user = (User) sessionHttp.getAttribute("user");
+    if(user != null) {
+        if(user.getManage().equals("MANAGER")){
+            response.sendRedirect("User?action=dashboard");
+        } else {
+            response.sendRedirect("Task");
+        }
+    }
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>

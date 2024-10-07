@@ -28,4 +28,7 @@ public class TaskService implements TaskServiceImpl {
     public Optional<Task> update(Task task) {
         return taskRepository.update(task);
     }
+    public Optional<Task> delete(Task task) {
+        return taskRepository.delete(task);
+    }
 }

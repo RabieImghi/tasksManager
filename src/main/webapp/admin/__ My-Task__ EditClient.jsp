@@ -1,7 +1,21 @@
+<%@ page import="org.example.taskmanager.entity.User" %>
 <!DOCTYPE html>
-<!-- saved from url=(0062)https://pixelwibes.com/template/my-task/html/dist/tickets.html -->
 <html class="no-js" lang="en" dir="ltr">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+    HttpSession sessionHttp = request.getSession();
+    User user = (User) sessionHttp.getAttribute("user");
+    if(user != null) {
+        if(user.getManage().equals("MANAGER")){
+            response.sendRedirect("User?action=dashboard");
+        } else {
+            response.sendRedirect("Task");
+        }
+    }else {
+        response.sendRedirect("index.jsp");
+    }
+
+%>
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -81,10 +95,10 @@ display: none !important;
             <!-- Menu: main ul -->
 
             <ul class="menu-list flex-grow-1 mt-3">
-                <c:if test="${user.manage=='MANAGER'}">
+                <c:if test="${userLogin.manage=='MANAGER'}">
                     <li class="collapsed">
                         <a class="m-link "  href="User?action=dashboard">
-                             <span>Dashboard</span></a>
+                            <span>Dashboard</span></a>
 
                     </li>
                 </c:if>
@@ -93,12 +107,12 @@ display: none !important;
                         <span>Tasks</span> </a>
 
                 </li>
-                <c:if test="${user.manage=='MANAGER'}">
-                <li class="collapsed">
-                    <a class="m-link active" href="User?action=users">
-                         <span>Users</span> </a>
+                <c:if test="${userLogin.manage=='MANAGER'}">
+                    <li class="collapsed">
+                        <a class="m-link active" href="User?action=users">
+                            <span>Users</span> </a>
 
-                </li>
+                    </li>
                 </c:if>
             </ul>
 

@@ -102,4 +102,20 @@ public class TaskRepository implements TaskRepositoryImpl {
         }
     }
 
+    public Optional<Task> delete(Task task) {
+        try {
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            entityManager.remove(task);
+            transaction.commit();
+            return Optional.of(task);
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+
 }

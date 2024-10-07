@@ -37,6 +37,7 @@ public class UserServlet extends HttpServlet {
                 Optional<User> user =userService.getById(id);
                 if(user.isPresent()){
                     request.setAttribute("user", user.get());
+                    request.setAttribute("userLogin", session.getAttribute("user"));
                     if(typeParam.equals("manager")) request.setAttribute("isManager", "true");
                     editDispatcher.forward(request, response);
                 }

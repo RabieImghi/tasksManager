@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.User;
+import org.example.taskmanager.service.TaskService;
 import org.example.taskmanager.service.UserService;
 import org.example.taskmanager.util.Manage;
 
@@ -18,8 +19,10 @@ import java.util.Optional;
 @WebServlet(name = "Login", value = "Login")
 public class LoginServlet extends HttpServlet {
     UserService userService;
+    TaskService taskService;
     public void init() throws ServletException {
         this.userService = new UserService();
+        this.taskService = new TaskService();
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
@@ -38,6 +41,7 @@ public class LoginServlet extends HttpServlet {
                 request.setAttribute("user", user.get());
                 session.setAttribute("user", user.get());
                 if(user.get().getManage().equals(Manage.USER)){
+                    request.setAttribute("taskList", taskService.findAll() );
                     RequestDispatcher dispatcher = request.getRequestDispatcher("admin/__ My-Task__ Tickets.jsp");
                     dispatcher.forward(request, response);
                 }else {
