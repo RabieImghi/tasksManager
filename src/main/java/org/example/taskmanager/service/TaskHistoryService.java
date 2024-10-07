@@ -15,8 +15,8 @@ public class TaskHistoryService implements TaskHistoryServiceImpl {
         this.taskHistoryRepository = new TaskHistoryRepository();
     }
 
-    public List<TaskHistory> getTaskHistoryByTaskId(Task task) {
-        return taskHistoryRepository.getTaskHistoryByTaskId(task);
+    public List<TaskHistory> getTaskHistoryByTaskId(Task task, String typeModification) {
+        return taskHistoryRepository.getTaskHistoryByTaskId(task, typeModification);
     }
     public Optional<TaskHistory> save(TaskHistory taskHistory) {
         return taskHistoryRepository.save(taskHistory);

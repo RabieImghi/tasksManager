@@ -6,6 +6,7 @@ import org.example.taskmanager.entity.TaskHistory;
 import org.example.taskmanager.repository.impl.TaskHistoryRepositoryImpl;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -24,18 +25,34 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
 
 
     @Override
-    public List<TaskHistory> getTaskHistoryByTaskId(Task task) {
+    public List<TaskHistory> getTaskHistoryByTaskId(Task task, String typeModification) {
         try {
             if (!transaction.isActive()) {
                 transaction.begin();
             }
-            LocalDate today = LocalDate.now();
-            List<TaskHistory> listTask =   entityManager
-                    .createQuery("FROM TaskHistory th WHERE th.task.assigneeTo.id = :userId AND th.modificationDate = :today", TaskHistory.class)
-                    .setParameter("userId", task.getAssigneeTo().getId())
-                    .setParameter("today", today)
-                    .getResultList();
-            return listTask;
+            if(typeModification.equals("change")){
+                LocalDate today = LocalDate.now();
+                return   entityManager
+                        .createQuery("FROM TaskHistory th WHERE th.task.assigneeTo.id = :userId AND th.modificationDate = :today AND th.typeModification = :typeModification", TaskHistory.class)
+                        .setParameter("userId", task.getAssigneeTo().getId())
+                        .setParameter("today", today)
+                        .setParameter("typeModification", typeModification)
+                        .getResultList();
+            }else {
+                LocalDate startDateMonth = YearMonth.now().atDay(1);
+                LocalDate endMonthDay = YearMonth.now().atEndOfMonth();
+                String que = "FROM TaskHistory th where th.task.assigneeTo.id = : userId " +
+                        "AND th.modificationDate BETWEEN :startDateMonth AND :endMonthDay " +
+                        "AND th.typeModification = :typeModification";
+                return entityManager
+                        .createQuery(que, TaskHistory.class)
+                        .setParameter("userId",task.getAssigneeTo().getId())
+                        .setParameter("startDateMonth", startDateMonth )
+                        .setParameter("endMonthDay", endMonthDay)
+                        .setParameter("typeModification",typeModification)
+                        .getResultList();
+            }
+
         }catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();

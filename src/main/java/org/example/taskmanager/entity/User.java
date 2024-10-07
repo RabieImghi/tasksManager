@@ -36,6 +36,8 @@
         @Column(name = "manage")
         private Manage manage;
 
+        private int token = 2;
+
         public User(String username, String firstname, String lastname, String password, String email, Manage manage) {
             this.username = username;
             this.firstname = firstname;

@@ -280,7 +280,7 @@
                         <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                             <h3 class="fw-bold mb-0">Tickets</h3>
                             <c:if test="${not empty error}">
-                                <span class="text-bg-danger">${error}</span>
+                                <span class="text-bg-danger p-2 badge">${error}</span>
                             </c:if>
                             <form method="post" action="Task">
                                 <div class="col-auto d-flex w-sm-100">
@@ -356,12 +356,23 @@
                                                              <td class=" dt-body-right">
                                                                  <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                                      <c:if test="${user.manage=='USER' && (task.user.id == user.id || task.assigneeTo.id == user.id) }">
-                                                                             <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
-                                                                             <a href="Task?id=${task.id}&action=deleteTask" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                         <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
+                                                                         <c:if test="${task.user.id == user.id}">
+                                                                            <a href="Task?id=${task.id}&action=deleteTask" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                         </c:if>
+                                                                         <c:if test="${task.user.id != user.id}">
+                                                                             <a href="taskHistory?id=${task.id}&type=delete" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                         </c:if>
+
                                                                      </c:if>
-                                                                     <c:if test="${user.manage=='MANAGER' && task.user.id == user.id}">
-                                                                             <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
-                                                                             <a href="Task?id=${task.id}&action=deleteTask" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                     <c:if test="${user.manage=='MANAGER' && (task.user.id == user.id || task.assigneeTo.id == user.id)}">
+                                                                         <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
+                                                                         <c:if test="${task.user.id == user.id}">
+                                                                             <a href="Task?id=${task.id}&action=deleteTask&tokenDelete=false" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                         </c:if>
+                                                                         <c:if test="${task.user.id != user.id}">
+                                                                             <a href="taskHistory?id=${task.id}&type=delete" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                         </c:if>
                                                                      </c:if>
 
 
@@ -372,11 +383,8 @@
                                                              </td>
                                                             <td class=" dt-body-right">
                                                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                                                    <c:if test="${task.assigneeTo.id == user.id }">
-                                                                        <a href="taskHistory?taskId=${task.id}&type=change" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
-                                                                    </c:if>
-                                                                    <c:if test="${task.assigneeTo.id != user.id && task.user.id != user.id }">
-
+                                                                    <c:if test="${task.assigneeTo.id == user.id && task.user.manage=='MANAGER' && task.user.id != user.id}">
+                                                                        <a href="taskHistory?id=${task.id}&type=change" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
                                                                     </c:if>
                                                                 </div>
                                                             </td>

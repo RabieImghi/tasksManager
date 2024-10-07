@@ -15,10 +15,26 @@ public class TageRepository implements TageRepositoryImpl {
         emf = Persistence.createEntityManagerFactory("myJPAUnit");
         em = emf.createEntityManager();
     }
+
+    public void save(Tage tage){
+        EntityTransaction tx = em.getTransaction();
+        try {
+            if(!tx.isActive()){
+                tx.begin();
+            }
+            em.persist(tage);
+            tx.commit();
+        }catch (Exception e){
+            if(tx.isActive()){
+                tx.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+    }
     public List<Tage> findAll(){
         EntityTransaction tx = em.getTransaction();
         try {
-            if(tx.isActive()){
+            if(!tx.isActive()){
                 tx.begin();
             }
             return em.createQuery("from Tage", Tage.class).getResultList();
@@ -32,7 +48,7 @@ public class TageRepository implements TageRepositoryImpl {
     public Optional<Tage> findById(Long id){
         EntityTransaction tx = em.getTransaction();
         try {
-            if(tx.isActive()){
+            if(!tx.isActive()){
                 tx.begin();
             }
             return Optional.of(em.find(Tage.class, id));

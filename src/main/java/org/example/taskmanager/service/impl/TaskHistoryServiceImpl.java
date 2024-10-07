@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TaskHistoryServiceImpl {
-    List<TaskHistory> getTaskHistoryByTaskId(Task task);
+    List<TaskHistory> getTaskHistoryByTaskId(Task task, String typeModification);
     Optional<TaskHistory> save(TaskHistory taskHistory);
 }
