@@ -109,19 +109,23 @@
                              <span>Dashboard</span></a>
 
                     </li>
-                </c:if>
-                <li class="collapsed">
-                    <a class="m-link active"  href="Task">
-                        <span>Tasks</span> </a>
+                    <li class="collapsed">
+                        <a class="m-link" href="User?action=users">
+                             <span>Users</span> </a>
 
-                </li>
-                <c:if test="${user.manage=='MANAGER'}">
-                <li class="collapsed">
-                    <a class="m-link" href="User?action=users">
-                         <span>Users</span> </a>
+                    </li>
+                    <li class="collapsed">
+                        <a class="m-link" href="taskHistory?action=approve">
+                            <span>Approve Change</span> </a>
 
-                </li>
+                    </li>
+
                 </c:if>
+                    <li class="collapsed">
+                        <a class="m-link active"  href="Task">
+                            <span>Tasks</span> </a>
+
+                    </li>
             </ul>
 
             
@@ -361,7 +365,7 @@
                                                                             <a href="Task?id=${task.id}&action=deleteTask" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
                                                                          </c:if>
                                                                          <c:if test="${task.user.id != user.id}">
-                                                                             <a href="taskHistory?id=${task.id}&type=delete" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                             <a href="taskHistory?id=${task.id}&type=delete&action=saveTaskHistory" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
                                                                          </c:if>
 
                                                                      </c:if>
@@ -371,7 +375,7 @@
                                                                              <a href="Task?id=${task.id}&action=deleteTask&tokenDelete=false" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
                                                                          </c:if>
                                                                          <c:if test="${task.user.id != user.id}">
-                                                                             <a href="taskHistory?id=${task.id}&type=delete" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                             <a href="taskHistory?id=${task.id}&type=delete&action=saveTaskHistory" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
                                                                          </c:if>
                                                                      </c:if>
 
@@ -384,7 +388,9 @@
                                                             <td class=" dt-body-right">
                                                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                                     <c:if test="${task.assigneeTo.id == user.id && task.user.manage=='MANAGER' && task.user.id != user.id}">
-                                                                        <a href="taskHistory?id=${task.id}&type=change" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
+                                                                        <a href="taskHistory?id=${task.id}&type=change&action=saveTaskHistory" class="btn btn-outline-secondary" >
+                                                                            <img src="admin/edit.svg" width="15px" >
+                                                                        </a>
                                                                     </c:if>
                                                                 </div>
                                                             </td>

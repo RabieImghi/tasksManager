@@ -104,24 +104,27 @@
                 <c:if test="${user.manage=='MANAGER'}">
                     <li class="collapsed">
                         <a class="m-link "  href="User?action=dashboard">
-                             <span>Dashboard</span></a>
+                            <span>Dashboard</span></a>
 
                     </li>
+                    <li class="collapsed">
+                        <a class="m-link" href="User?action=users">
+                            <span>Users</span> </a>
+
+                    </li>
+                    <li class="collapsed">
+                        <a class="m-link" href="taskHistory?action=approve">
+                            <span>Approve Change</span> </a>
+
+                    </li>
+
                 </c:if>
                 <li class="collapsed">
                     <a class="m-link active"  href="Task">
                         <span>Tasks</span> </a>
 
                 </li>
-                <c:if test="${user.manage=='MANAGER'}">
-                <li class="collapsed">
-                    <a class="m-link" href="User?action=users">
-                         <span>Users</span> </a>
-
-                </li>
-                </c:if>
             </ul>
-
             
             
             <!-- Menu: menu collepce btn -->

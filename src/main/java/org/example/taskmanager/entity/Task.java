@@ -23,6 +23,7 @@ public class Task implements Serializable {
     private LocalDate creationDate;
     private LocalDate endDate;
 
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "task_tag",
@@ -33,15 +34,21 @@ public class Task implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private TaskStatus isCompleted;
+
     private boolean isChanged;
+    private boolean isDeleted;
+
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+
     @ManyToOne
     @JoinColumn(name = "assignee_to")
     private User assigneeTo;
 
-    public Task(String title, String description, LocalDate creationDate, LocalDate endDate, TaskStatus isCompleted, boolean isChanged, User user, User assigneeTo,List<Tage> listTages) {
+    public Task(String title, String description, LocalDate creationDate, LocalDate endDate, TaskStatus isCompleted, boolean isChanged, User user, User assigneeTo,List<Tage> listTages, boolean isDeleted) {
         this.title = title;
         this.description = description;
         this.creationDate = creationDate;
@@ -51,6 +58,7 @@ public class Task implements Serializable {
         this.user = user;
         this.assigneeTo = assigneeTo;
         this.tages = listTages;
+        this.isDeleted = isDeleted;
     }
     public Task() {}
 }

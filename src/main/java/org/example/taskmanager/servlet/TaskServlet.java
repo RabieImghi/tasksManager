@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.Tage;
 import org.example.taskmanager.entity.Task;
+import org.example.taskmanager.entity.TaskHistory;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.service.TageService;
 import org.example.taskmanager.service.TaskService;
@@ -181,7 +182,7 @@ public class TaskServlet extends HttpServlet {
             } return Optional.empty();
 
         }else {
-            Task task = new Task(title,description,creationDate,endDate, TaskStatus.EN_PROGRESS,false,userCreat.get(),userAssignee.get(),listTage);
+            Task task = new Task(title,description,creationDate,endDate, TaskStatus.EN_PROGRESS,false,userCreat.get(),userAssignee.get(),listTage,false);
             return Optional.of(task);
         }
 

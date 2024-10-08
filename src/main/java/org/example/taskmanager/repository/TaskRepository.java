@@ -44,7 +44,11 @@ public class TaskRepository implements TaskRepositoryImpl {
             if (!transaction.isActive()) {
                 transaction.begin();
             }
-            return entityManager.createQuery("from Task", Task.class).getResultList();
+            List<Task> taskList =entityManager.createQuery("from Task t where t.isDeleted = false ", Task.class).getResultList();
+            taskList.forEach(task -> {
+                entityManager.refresh(task);
+            });
+            return taskList;
         }catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();

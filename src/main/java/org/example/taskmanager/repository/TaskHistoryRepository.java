@@ -3,6 +3,7 @@ package org.example.taskmanager.repository;
 import jakarta.persistence.*;
 import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.entity.TaskHistory;
+import org.example.taskmanager.entity.User;
 import org.example.taskmanager.repository.impl.TaskHistoryRepositoryImpl;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
 
 
     @Override
-    public List<TaskHistory> getTaskHistoryByTaskId(Task task, String typeModification) {
+    public List<TaskHistory> getTaskHistoryByTaskId(User user, String typeModification) {
         try {
             if (!transaction.isActive()) {
                 transaction.begin();
@@ -33,8 +34,8 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
             if(typeModification.equals("change")){
                 LocalDate today = LocalDate.now();
                 return   entityManager
-                        .createQuery("FROM TaskHistory th WHERE th.task.assigneeTo.id = :userId AND th.modificationDate = :today AND th.typeModification = :typeModification", TaskHistory.class)
-                        .setParameter("userId", task.getAssigneeTo().getId())
+                        .createQuery("FROM TaskHistory th WHERE th.oldUser.id = :userId AND th.modificationDate = :today AND th.typeModification = :typeModification", TaskHistory.class)
+                        .setParameter("userId", user.getId())
                         .setParameter("today", today)
                         .setParameter("typeModification", typeModification)
                         .getResultList();
@@ -46,7 +47,7 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
                         "AND th.typeModification = :typeModification";
                 return entityManager
                         .createQuery(que, TaskHistory.class)
-                        .setParameter("userId",task.getAssigneeTo().getId())
+                        .setParameter("userId",user.getId())
                         .setParameter("startDateMonth", startDateMonth )
                         .setParameter("endMonthDay", endMonthDay)
                         .setParameter("typeModification",typeModification)
@@ -69,6 +70,55 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
             entityManager.persist(taskHistory);
             transaction.commit();
             return Optional.of(taskHistory);
+        }catch (Exception e){
+            if(transaction.isActive()){
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+    public List<TaskHistory> findAll(User user){
+        try {
+            if(!transaction.isActive()){
+                transaction.begin();
+            }
+            return entityManager
+                    .createQuery("FROM TaskHistory th where th.task.user.id = :id and th.typeModification = :type " +
+                            " and th.task.isChanged = :isChanged ", TaskHistory.class)
+                    .setParameter("id", user.getId())
+                    .setParameter("type", "change")
+                    .setParameter("isChanged", false)
+                    .getResultList();
+        }catch (Exception e){
+            if(transaction.isActive()){
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+    public Optional<TaskHistory> findById(Long id){
+        try {
+            if(!transaction.isActive()){
+                transaction.begin();
+            }
+            Optional<TaskHistory> taskHistory = Optional.of(entityManager.find(TaskHistory.class, id));
+            transaction.commit();
+            return taskHistory;
+        }catch (Exception e){
+            if(transaction.isActive()){
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+    public Optional<TaskHistory> update(TaskHistory taskHistory){
+        try {
+            if (!transaction.isActive()){
+                transaction.begin();
+            }
+            Optional<TaskHistory> taskHistoryUpdated= Optional.of(entityManager.merge(taskHistory));
+            transaction.commit();
+            return taskHistoryUpdated;
         }catch (Exception e){
             if(transaction.isActive()){
                 transaction.rollback();

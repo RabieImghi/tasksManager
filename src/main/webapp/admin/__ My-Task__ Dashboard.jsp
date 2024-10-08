@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- saved from url=(0072)https://pixelwibes.com/template/my-task/html/dist/project-dashboard.html -->
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html class="no-js" lang="en" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -772,23 +772,30 @@ rect.legend-mouseover-inactive,
             <!-- Menu: main ul -->
 
             <ul class="menu-list flex-grow-1 mt-3">
+                <c:if test="${user.manage=='MANAGER'}">
+                    <li class="collapsed">
+                        <a class="m-link "  href="User?action=dashboard">
+                            <span>Dashboard</span></a>
+
+                    </li>
+                    <li class="collapsed">
+                        <a class="m-link" href="User?action=users">
+                            <span>Users</span> </a>
+
+                    </li>
+                    <li class="collapsed">
+                        <a class="m-link" href="taskHistory?action=approve">
+                            <span>Approve Change</span> </a>
+
+                    </li>
+
+                </c:if>
                 <li class="collapsed">
-                    <a class="m-link active"  href="User?action=dashboard">
-                         <span>Dashboard</span></a>
-                    
-                </li>
-                <li class="collapsed">
-                    <a class="m-link"  href="Task">
+                    <a class="m-link active"  href="Task">
                         <span>Tasks</span> </a>
-                  
+
                 </li>
-                
-                <li class="collapsed">
-                    <a class="m-link" href="User?action=users">
-                      <span>Users</span> </a>
-                   
-                </li>
-               </ul>
+            </ul>
 
             
             

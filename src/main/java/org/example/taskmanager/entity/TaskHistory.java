@@ -21,10 +21,18 @@ public class TaskHistory implements Serializable {
     @JoinColumn(name = "task_id")
     private Task task;
 
-    public TaskHistory(String typeModification, LocalDate modificationDate, Task task) {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User oldUser;
+
+    private boolean isApprove;
+
+    public TaskHistory(String typeModification, LocalDate modificationDate, Task task,User oldUser, boolean isApprove) {
         this.typeModification = typeModification;
         this.modificationDate = modificationDate;
         this.task = task;
+        this.oldUser = oldUser;
+        this.isApprove = isApprove;
     }
 
     public TaskHistory() {}

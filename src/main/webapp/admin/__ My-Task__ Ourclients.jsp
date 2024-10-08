@@ -77,20 +77,27 @@ display: none !important;
             <!-- Menu: main ul -->
 
             <ul class="menu-list flex-grow-1 mt-3">
-                <li class="collapsed">
-                    <a class="m-link "  href="User?action=dashboard">
-                       </i> <span>Dashboard</span></a>
+                <c:if test="${user.manage=='MANAGER'}">
+                    <li class="collapsed">
+                        <a class="m-link "  href="User?action=dashboard">
+                            <span>Dashboard</span></a>
 
-                </li>
+                    </li>
+                    <li class="collapsed">
+                        <a class="m-link" href="User?action=users">
+                            <span>Users</span> </a>
+
+                    </li>
+                    <li class="collapsed">
+                        <a class="m-link" href="taskHistory?action=approve">
+                            <span>Approve Change</span> </a>
+
+                    </li>
+
+                </c:if>
                 <li class="collapsed">
-                    <a class="m-link"  href="Task">
+                    <a class="m-link active"  href="Task">
                         <span>Tasks</span> </a>
-
-                </li>
-
-                <li class="collapsed">
-                    <a class="m-link active" href="User?action=users">
-                     <span>Users</span> </a>
 
                 </li>
             </ul>

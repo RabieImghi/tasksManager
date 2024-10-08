@@ -2,6 +2,7 @@ package org.example.taskmanager.service;
 
 import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.entity.TaskHistory;
+import org.example.taskmanager.entity.User;
 import org.example.taskmanager.repository.TaskHistoryRepository;
 import org.example.taskmanager.service.impl.TaskHistoryServiceImpl;
 
@@ -15,10 +16,19 @@ public class TaskHistoryService implements TaskHistoryServiceImpl {
         this.taskHistoryRepository = new TaskHistoryRepository();
     }
 
-    public List<TaskHistory> getTaskHistoryByTaskId(Task task, String typeModification) {
-        return taskHistoryRepository.getTaskHistoryByTaskId(task, typeModification);
+    public List<TaskHistory> getTaskHistoryByTaskId(User user, String typeModification) {
+        return taskHistoryRepository.getTaskHistoryByTaskId(user, typeModification);
     }
     public Optional<TaskHistory> save(TaskHistory taskHistory) {
         return taskHistoryRepository.save(taskHistory);
+    }
+    public List<TaskHistory> findAll(User user) {
+        return taskHistoryRepository.findAll(user);
+    }
+    public Optional<TaskHistory> findById(Long id){
+        return taskHistoryRepository.findById(id);
+    }
+    public Optional<TaskHistory> update(TaskHistory taskHistory){
+        return taskHistoryRepository.update(taskHistory);
     }
 }

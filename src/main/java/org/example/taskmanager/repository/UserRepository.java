@@ -69,6 +69,9 @@ public class UserRepository implements UserRepositoryImpl {
                     .createQuery(stmFind, User.class)
                     .setParameter("username", username)
                     .getResultList();
+            users.forEach(user -> {
+                entityManager.refresh(user);
+            });
             transaction.commit();
             if (!users.isEmpty()) return Optional.of(users.get(0));
             else return Optional.empty();
