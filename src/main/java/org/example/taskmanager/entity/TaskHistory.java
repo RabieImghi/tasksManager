@@ -2,13 +2,18 @@ package org.example.taskmanager.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "task_history")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 public class TaskHistory implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,14 +30,14 @@ public class TaskHistory implements Serializable {
     @JoinColumn(name = "user_id")
     private User oldUser;
 
-    private boolean isApprove;
+    private boolean approve;
 
-    public TaskHistory(String typeModification, LocalDate modificationDate, Task task,User oldUser, boolean isApprove) {
+    public TaskHistory(String typeModification, LocalDate modificationDate, Task task,User oldUser, boolean approve) {
         this.typeModification = typeModification;
         this.modificationDate = modificationDate;
         this.task = task;
         this.oldUser = oldUser;
-        this.isApprove = isApprove;
+        this.approve = approve;
     }
 
     public TaskHistory() {}

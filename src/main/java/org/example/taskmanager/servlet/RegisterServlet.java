@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.service.UserService;
 import org.example.taskmanager.util.Manage;
+import org.example.taskmanager.util.TokenScheduler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,6 +27,7 @@ public class RegisterServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
         dispatcher.forward(request, response);
+
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");

@@ -15,6 +15,7 @@ import org.example.taskmanager.service.TageService;
 import org.example.taskmanager.service.TaskService;
 import org.example.taskmanager.service.UserService;
 import org.example.taskmanager.util.TaskStatus;
+import org.example.taskmanager.util.TokenScheduler;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -166,19 +167,28 @@ public class TaskServlet extends HttpServlet {
         }
         if (isUpdate){
             String isCompleted = request.getParameter("isCompleted");
+
             Long idTask= Long.parseLong(request.getParameter("idTask"));
             Optional<Task> task = taskService.findById(idTask);
             if(task.isPresent()){
-                Task task1 =task.get();
-                task1.setTitle(title);
-                task1.setDescription(description);
-                task1.setCreationDate(creationDate);
-                task1.setEndDate(endDate);
-                task1.setUser(userCreat.get());
-                task1.setAssigneeTo(userAssignee.get());
-                task1.setTages(listTage);
-                task1.setIsCompleted(TaskStatus.valueOf(isCompleted));
-                return task;
+                if(TaskStatus.valueOf(isCompleted).equals(TaskStatus.COMPLETED)){
+                    if(endDate.isAfter(LocalDate.now())){
+                        request.setAttribute("task",task.get());
+                        request.getRequestDispatcher("admin/__ My-Task__ EditTickets.jsp").forward(request, response);
+                    }
+                }else {
+                    Task task1 =task.get();
+                    task1.setTitle(title);
+                    task1.setDescription(description);
+                    task1.setCreationDate(creationDate);
+                    task1.setEndDate(endDate);
+                    task1.setUser(userCreat.get());
+                    task1.setAssigneeTo(userAssignee.get());
+                    task1.setTages(listTage);
+                    task1.setIsCompleted(TaskStatus.valueOf(isCompleted));
+                    return task;
+                }
+
             } return Optional.empty();
 
         }else {

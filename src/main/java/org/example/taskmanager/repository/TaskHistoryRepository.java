@@ -5,6 +5,7 @@ import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.entity.TaskHistory;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.repository.impl.TaskHistoryRepositoryImpl;
+import org.example.taskmanager.util.TaskStatus;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -96,6 +97,7 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
             throw e;
         }
     }
+
     public Optional<TaskHistory> findById(Long id){
         try {
             if(!transaction.isActive()){
@@ -116,9 +118,30 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
             if (!transaction.isActive()){
                 transaction.begin();
             }
-            Optional<TaskHistory> taskHistoryUpdated= Optional.of(entityManager.merge(taskHistory));
+            entityManager.merge(taskHistory);
+            Optional<TaskHistory> taskHistoryUpdated= Optional.of(taskHistory);
             transaction.commit();
             return taskHistoryUpdated;
+        }catch (Exception e){
+            if(transaction.isActive()){
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+    public List<TaskHistory> getAllTaskHistoryForChangeStatus(){
+        try {
+            if(!transaction.isActive()){
+                transaction.begin();
+            }
+            LocalDate date = LocalDate.now();
+            return entityManager
+                    .createQuery("FROM TaskHistory th where" +
+                            " th.task.isChanged = :isChanged and th.task.endDate < :date and th.task.isCompleted = :isComplete", TaskHistory.class)
+                    .setParameter("isChanged", false)
+                    .setParameter("date", date)
+                    .setParameter("isComplete", TaskStatus.EN_PROGRESS)
+                    .getResultList();
         }catch (Exception e){
             if(transaction.isActive()){
                 transaction.rollback();
