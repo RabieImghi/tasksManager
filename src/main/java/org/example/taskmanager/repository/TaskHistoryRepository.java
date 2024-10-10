@@ -8,6 +8,7 @@ import org.example.taskmanager.repository.impl.TaskHistoryRepositoryImpl;
 import org.example.taskmanager.util.TaskStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
                 transaction.begin();
             }
             if(typeModification.equals("change")){
-                LocalDate today = LocalDate.now();
+                LocalDateTime today = LocalDateTime.now();
                 return   entityManager
                         .createQuery("FROM TaskHistory th WHERE th.oldUser.id = :userId AND th.modificationDate = :today AND th.typeModification = :typeModification", TaskHistory.class)
                         .setParameter("userId", user.getId())
@@ -135,13 +136,15 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
                 transaction.begin();
             }
             LocalDate date = LocalDate.now();
-            return entityManager
+            List<TaskHistory> list = entityManager
                     .createQuery("FROM TaskHistory th where" +
                             " th.task.isChanged = :isChanged and th.task.endDate < :date and th.task.isCompleted = :isComplete", TaskHistory.class)
                     .setParameter("isChanged", false)
                     .setParameter("date", date)
                     .setParameter("isComplete", TaskStatus.EN_PROGRESS)
                     .getResultList();
+            list.forEach(taskHistory -> entityManager.refresh(taskHistory));
+            return list;
         }catch (Exception e){
             if(transaction.isActive()){
                 transaction.rollback();

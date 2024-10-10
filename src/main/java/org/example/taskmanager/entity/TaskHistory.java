@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "task_history")
@@ -20,7 +21,7 @@ public class TaskHistory implements Serializable {
     private Long id;
 
     private String typeModification;
-    private LocalDate modificationDate;
+    private LocalDateTime modificationDate;
 
     @ManyToOne
     @JoinColumn(name = "task_id")
@@ -32,7 +33,7 @@ public class TaskHistory implements Serializable {
 
     private boolean approve;
 
-    public TaskHistory(String typeModification, LocalDate modificationDate, Task task,User oldUser, boolean approve) {
+    public TaskHistory(String typeModification, LocalDateTime modificationDate, Task task,User oldUser, boolean approve) {
         this.typeModification = typeModification;
         this.modificationDate = modificationDate;
         this.task = task;
