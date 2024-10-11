@@ -29,8 +29,8 @@ public class TaskViewScheduler {
     }
 
     public void start() {
-        scheduler.scheduleAtFixedRate(this::markUnapprovedTasks, 0, 30, TimeUnit.SECONDS);
-        scheduler.scheduleAtFixedRate(this::processTokens, 60, 60, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(this::markUnapprovedTasks, 0, 60, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(this::processTokens, 0, 121, TimeUnit.SECONDS);
     }
 
     public void markUnapprovedTasks(){
@@ -57,8 +57,7 @@ public class TaskViewScheduler {
                         countTask.getAndIncrement();
                     });
             if(countTask.intValue() > 0) {
-                if (user.getToken()==0) user.setToken(2);
-                else user.setToken(user.getToken()*2);
+                user.setToken(4);
             } else user.setToken(2);
             userService.update(user);
         });

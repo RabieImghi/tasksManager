@@ -28,7 +28,6 @@ public class TaskRepository implements TaskRepositoryImpl {
         try {
             updateTasksTags(task);
             entityManager.persist(task);
-
             transaction.commit();
             return Optional.of(task);
         } catch (Exception e) {
@@ -64,6 +63,7 @@ public class TaskRepository implements TaskRepositoryImpl {
             Task task= entityManager.createQuery("from Task where id = :id", Task.class)
                     .setParameter("id",id)
                     .getResultList().get(0);
+            entityManager.refresh(task);
             return Optional.of(task);
         }catch (Exception e) {
             if(transaction.isActive()){

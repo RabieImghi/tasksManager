@@ -33,12 +33,15 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
             if (!transaction.isActive()) {
                 transaction.begin();
             }
+            List<TaskHistory> taskHistoryList;
             if(typeModification.equals("change")){
-                LocalDateTime today = LocalDateTime.now();
-                return   entityManager
-                        .createQuery("FROM TaskHistory th WHERE th.oldUser.id = :userId AND th.modificationDate = :today AND th.typeModification = :typeModification", TaskHistory.class)
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime minus120Seconds = now.minusSeconds(121);
+                taskHistoryList=   entityManager
+                        .createQuery("FROM TaskHistory th WHERE th.oldUser.id = :userId AND th.modificationDate BETWEEN :minus120Seconds AND :now AND th.typeModification = :typeModification", TaskHistory.class)
                         .setParameter("userId", user.getId())
-                        .setParameter("today", today)
+                        .setParameter("minus120Seconds", minus120Seconds)
+                        .setParameter("now", now)
                         .setParameter("typeModification", typeModification)
                         .getResultList();
             }else {
@@ -47,7 +50,7 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
                 String que = "FROM TaskHistory th where th.task.assigneeTo.id = : userId " +
                         "AND th.modificationDate BETWEEN :startDateMonth AND :endMonthDay " +
                         "AND th.typeModification = :typeModification";
-                return entityManager
+                taskHistoryList = entityManager
                         .createQuery(que, TaskHistory.class)
                         .setParameter("userId",user.getId())
                         .setParameter("startDateMonth", startDateMonth )
@@ -55,6 +58,9 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
                         .setParameter("typeModification",typeModification)
                         .getResultList();
             }
+            taskHistoryList.forEach(taskHistory -> entityManager.refresh(taskHistory));
+            return taskHistoryList;
+
 
         }catch (Exception e) {
             if (transaction.isActive()) {
@@ -83,13 +89,15 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
             if(!transaction.isActive()){
                 transaction.begin();
             }
-            return entityManager
+            List<TaskHistory> taskHistoryList = entityManager
                     .createQuery("FROM TaskHistory th where th.task.user.id = :id and th.typeModification = :type " +
                             " and th.task.isChanged = :isChanged ", TaskHistory.class)
                     .setParameter("id", user.getId())
                     .setParameter("type", "change")
                     .setParameter("isChanged", false)
                     .getResultList();
+            taskHistoryList.forEach(taskHistory -> entityManager.refresh(taskHistory));
+            return taskHistoryList;
         }catch (Exception e){
             if(transaction.isActive()){
                 transaction.rollback();
@@ -103,6 +111,7 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
                 transaction.begin();
             }
             Optional<TaskHistory> taskHistory = Optional.of(entityManager.find(TaskHistory.class, id));
+            taskHistory.ifPresent(taskHistory1 -> entityManager.refresh(taskHistory1));
             transaction.commit();
             return taskHistory;
         }catch (Exception e){

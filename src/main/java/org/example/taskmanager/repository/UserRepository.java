@@ -49,7 +49,10 @@ public class UserRepository implements UserRepositoryImpl {
                     .setParameter("email", email)
                     .getResultList();
             transaction.commit();
-            if (!users.isEmpty()) return Optional.of(users.get(0));
+            if (!users.isEmpty()) {
+                entityManager.refresh(users.get(0));
+                return Optional.of(users.get(0));
+            }
             else return Optional.empty();
         }catch (Exception e){
             if (transaction.isActive()) {
@@ -73,7 +76,10 @@ public class UserRepository implements UserRepositoryImpl {
                 entityManager.refresh(user);
             });
             transaction.commit();
-            if (!users.isEmpty()) return Optional.of(users.get(0));
+            if (!users.isEmpty()) {
+                entityManager.refresh(users.get(0));
+                return Optional.of(users.get(0));
+            }
             else return Optional.empty();
         }catch (Exception e){
             if (transaction.isActive()) {
@@ -94,7 +100,10 @@ public class UserRepository implements UserRepositoryImpl {
                     .setParameter("id", id)
                     .getResultList();
             transaction.commit();
-            if (!users.isEmpty()) return Optional.of(users.get(0));
+            if (!users.isEmpty()) {
+                entityManager.refresh(users.get(0));
+                return Optional.of(users.get(0));
+            }
             else return Optional.empty();
         }catch (Exception e){
             if (transaction.isActive()) {
@@ -146,6 +155,7 @@ public class UserRepository implements UserRepositoryImpl {
                     .createQuery(stmFind, User.class)
                     .getResultList();
             transaction.commit();
+            users.forEach(user -> entityManager.refresh(user));
             return users;
         }catch (Exception e){
             if (transaction.isActive()) {

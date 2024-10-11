@@ -127,7 +127,8 @@ public class TaskHistoryServlet extends HttpServlet {
     }
     public boolean save(HttpServletRequest request,HttpServletResponse response,List<TaskHistory> taskHistoryList,TaskHistory taskHistory,int size, Task task)
     {
-        if(taskHistoryList.size()<size) {
+        if(size==0) return false;
+        if(taskHistoryList.size()<=size) {
             taskHistoryService.save(taskHistory).ifPresent(taskHistory1 -> {
                 RequestDispatcher taskDispatch = request.getRequestDispatcher("admin/__ My-Task__ Tickets.jsp");
                 User user = taskHistory1.getOldUser();
