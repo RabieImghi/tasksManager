@@ -29,8 +29,8 @@ public class TaskViewScheduler {
     }
 
     public void start() {
-        scheduler.scheduleAtFixedRate(this::markUnapprovedTasks, 0, 60, TimeUnit.SECONDS);
-        scheduler.scheduleAtFixedRate(this::processTokens, 0, 121, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(this::markUnapprovedTasks, 0, 12, TimeUnit.HOURS);
+        scheduler.scheduleAtFixedRate(this::processTokens, 0, 24, TimeUnit.HOURS);
     }
 
     public void markUnapprovedTasks(){

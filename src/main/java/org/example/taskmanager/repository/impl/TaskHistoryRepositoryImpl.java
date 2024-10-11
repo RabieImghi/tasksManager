@@ -14,4 +14,5 @@ public interface TaskHistoryRepositoryImpl {
     Optional<TaskHistory> findById(Long id);
     Optional<TaskHistory> update(TaskHistory taskHistory);
     List<TaskHistory> getAllTaskHistoryForChangeStatus(User user);
+    List<TaskHistory> getAllTaskHistory();
 }

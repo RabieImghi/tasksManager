@@ -34,4 +34,7 @@ public class TaskHistoryService implements TaskHistoryServiceImpl {
     public List<TaskHistory> getAllTaskHistoryForChangeStatus(User user){
         return taskHistoryRepository.getAllTaskHistoryForChangeStatus(user);
     }
+    public List<TaskHistory> getAllTaskHistory(){
+        return taskHistoryRepository.getAllTaskHistory();
+    }
 }

@@ -155,4 +155,22 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
             throw e;
         }
     }
+    public List<TaskHistory> getAllTaskHistory(){
+        try {
+            if(!transaction.isActive()){
+                transaction.begin();
+            }
+            List<TaskHistory> taskHistoryList = entityManager
+                    .createQuery("from TaskHistory th",TaskHistory.class)
+                    .getResultList();
+            taskHistoryList.forEach(taskHistory -> entityManager.refresh(taskHistory));
+            transaction.commit();
+            return taskHistoryList;
+        }catch (Exception e){
+            if(transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
 }

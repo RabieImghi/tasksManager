@@ -63,13 +63,12 @@ public class UserServlet extends HttpServlet {
                 }
             }
         }else if(action.equals("dashboard")){
-            dashboard.forward(request, response);
+            LoginServlet.dashboard(request,response);
         }else if(action.equals("users")){
             List<User> usersList= userService.getAll();
             request.setAttribute("userList", usersList);
             users.forward(request, response);
         } else if(action.equals("logout")){
-            //clear session
             session.invalidate();
             response.sendRedirect("Login");
         }

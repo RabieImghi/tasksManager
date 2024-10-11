@@ -158,8 +158,8 @@ public class TaskServlet extends HttpServlet {
             Optional<Tage> tage = tageService.findById(tageId);
             tage.ifPresent(listTage::add);
         });
-        checkDateValidate(request,response,isUpdate,creationDate,endDate);
-        if(!userCreat.isPresent() || !userAssignee.isPresent()){
+        if(!isUpdate) checkDateValidate(request,response,isUpdate,creationDate,endDate);
+        if(userCreat.isEmpty() || userAssignee.isEmpty()){
             request.getRequestDispatcher("admin/__ My-Task__ AddTickets.jsp").forward(request, response);
         }
         if (isUpdate){
@@ -168,23 +168,23 @@ public class TaskServlet extends HttpServlet {
             Long idTask= Long.parseLong(request.getParameter("idTask"));
             Optional<Task> task = taskService.findById(idTask);
             if(task.isPresent()){
+                Task task1 = task.get();
                 if(TaskStatus.valueOf(isCompleted).equals(TaskStatus.COMPLETED)){
-                    if(endDate.isAfter(LocalDate.now())){
+                    if(endDate.isBefore(LocalDate.now())){
                         request.setAttribute("task",task.get());
                         request.getRequestDispatcher("admin/__ My-Task__ EditTickets.jsp").forward(request, response);
-                    }
-                }else {
-                    Task task1 =task.get();
-                    task1.setTitle(title);
-                    task1.setDescription(description);
-                    task1.setCreationDate(creationDate);
-                    task1.setEndDate(endDate);
-                    task1.setUser(userCreat.get());
-                    task1.setAssigneeTo(userAssignee.get());
-                    task1.setTages(listTage);
-                    task1.setIsCompleted(TaskStatus.valueOf(isCompleted));
-                    return task;
-                }
+                    }else task1.setIsCompleted(TaskStatus.valueOf(isCompleted));
+                }else task1.setIsCompleted(TaskStatus.valueOf(isCompleted));
+                task1 =task.get();
+                task1.setTitle(title);
+                task1.setDescription(description);
+                task1.setCreationDate(creationDate);
+                task1.setEndDate(endDate);
+                task1.setUser(userCreat.get());
+                task1.setAssigneeTo(userAssignee.get());
+                task1.setTages(listTage);
+                return task;
+
 
             } return Optional.empty();
 
