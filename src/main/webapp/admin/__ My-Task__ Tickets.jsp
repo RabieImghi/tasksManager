@@ -313,10 +313,10 @@
                                                                 Title
                                                             </th>
                                                             <th class="dt-body-right sorting" tabindex="0" aria-controls="myProjectTable" rowspan="1" colspan="1" style="width: 137.2px;" aria-label="Created Date: activate to sort column ascending">
-                                                                Created Date
-                                                            </th>
-                                                            <th class="dt-body-right sorting" tabindex="0" aria-controls="myProjectTable" rowspan="1" colspan="1" style="width: 137.2px;" aria-label="Created Date: activate to sort column ascending">
                                                                 End Date
+                                                            </th>
+                                                            <th class="sorting" tabindex="0" aria-controls="myProjectTable" rowspan="1" colspan="1" style="width: 204.2px;" aria-label="Assigned: activate to sort column ascending">
+                                                                Created By
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="myProjectTable" rowspan="1" colspan="1" style="width: 204.2px;" aria-label="Assigned: activate to sort column ascending">
                                                                 Assigned
@@ -334,14 +334,18 @@
                                                     </thead>
                                                     <tbody>
                                                     <c:forEach var="task" items="${taskList}">
-                                                        <tr role="row" class="odd">
+                                                        <c:if test="${task.assigneeTo.id == user.id || task.user.id == user.id }">
+                                                            <tr role="row" class="odd">
                                                             <td tabindex="0" class="sorting_1">
                                                                 <a href="#" class="fw-bold text-secondary">#${task.id}</a>
                                                             </td>
                                                             <td>${task.title}</td>
 
-                                                            <td class=" dt-body-right">${task.creationDate}</td>
                                                             <td class=" dt-body-right">${task.endDate}</td>
+                                                            <td>
+                                                                <img class="avatar rounded-circle" src="./admin/__ My-Task__ Tickets_files/avatar4.jpg" alt="">
+                                                                <span class="fw-bold ms-1">${task.user.username}</span>
+                                                            </td>
                                                             <td>
                                                                 <img class="avatar rounded-circle" src="./admin/__ My-Task__ Tickets_files/avatar4.jpg" alt="">
                                                                 <span class="fw-bold ms-1">${task.assigneeTo.username}</span>
@@ -359,37 +363,22 @@
                                                             </td>
                                                              <td class=" dt-body-right">
                                                                  <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                                                     <c:if test="${user.manage=='USER' && (task.user.id == user.id || task.assigneeTo.id == user.id) }">
-                                                                         <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
+                                                                     <c:if test="${task.isCompleted == 'EN_PROGRESS'}">
+                                                                         <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-warning" ><img src="admin/edit.svg" width="15px" ></a>
                                                                          <c:if test="${task.user.id == user.id}">
-                                                                            <a href="Task?id=${task.id}&action=deleteTask" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                             <a href="Task?id=${task.id}&action=deleteTask" class="btn btn-outline-danger"><img src="admin/ui-delete.svg" width="15px" ></a>
                                                                          </c:if>
                                                                          <c:if test="${task.user.id != user.id}">
-                                                                             <a href="taskHistory?id=${task.id}&type=delete&action=saveTaskHistory" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
+                                                                             <a href="taskHistory?id=${task.id}&type=delete&action=saveTaskHistory" class="btn btn-outline-danger"><img src="admin/ui-delete.svg" width="15px" ></a>
                                                                          </c:if>
-
-                                                                     </c:if>
-                                                                     <c:if test="${user.manage=='MANAGER' && (task.user.id == user.id || task.assigneeTo.id == user.id)}">
-                                                                         <a href="Task?id=${task.id}&action=updateTask" class="btn btn-outline-secondary" ><img src="admin/edit.svg" width="15px" ></a>
-                                                                         <c:if test="${task.user.id == user.id}">
-                                                                             <a href="Task?id=${task.id}&action=deleteTask&tokenDelete=false" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
-                                                                         </c:if>
-                                                                         <c:if test="${task.user.id != user.id}">
-                                                                             <a href="taskHistory?id=${task.id}&type=delete&action=saveTaskHistory" class="btn btn-outline-secondary"><img src="admin/ui-delete.svg" width="15px" ></a>
-                                                                         </c:if>
-                                                                     </c:if>
-
-
-                                                                     <c:if test="${task.assigneeTo.id != user.id && task.user.id != user.id }">
-                                                                         <span class="text-danger">You don't have access</span>
                                                                      </c:if>
                                                                  </div>
                                                              </td>
                                                             <td class=" dt-body-right">
                                                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                                                    <c:if test="${task.assigneeTo.id == user.id && task.user.manage=='MANAGER' && task.user.id != user.id}">
-                                                                        <a href="taskHistory?id=${task.id}&type=change&action=saveTaskHistory" class="btn btn-outline-secondary" >
-                                                                            <img src="admin/edit.svg" width="15px" >
+                                                                    <c:if test="${task.assigneeTo.id == user.id && task.user.manage=='MANAGER' && task.user.id != user.id && task.isCompleted!='CANCELLED'}">
+                                                                        <a href="taskHistory?id=${task.id}&type=change&action=saveTaskHistory" class="btn btn-outline-success" >
+                                                                            Request Change
                                                                         </a>
                                                                     </c:if>
                                                                 </div>
@@ -397,6 +386,7 @@
 
 
                                                          </tr>
+                                                        </c:if>
                                                     </c:forEach>
                                                     </tbody>
                                 </table></div></div>

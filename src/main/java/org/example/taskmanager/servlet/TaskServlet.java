@@ -89,17 +89,18 @@ public class TaskServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         String action = request.getParameter("actionType");
         switch (action){
-            case "Add Task" : {
-                request.setAttribute("userList", this.userService.getAll());
-                request.setAttribute("user", user);
-                request.setAttribute("tagesList", tageService.findAll());
-                RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ AddTickets.jsp");
-                tasks.forward(request, response);
-            }
-            break;
+            case "Add Task" : addTaskView(request,response,user);
             case "addTask" : addTask(request,response);
             case "updateTask" : updateTask(request,response);
         }
+    }
+
+    public void addTaskView(HttpServletRequest request, HttpServletResponse response,User user) throws ServletException, IOException{
+        request.setAttribute("userList", this.userService.getAll());
+        request.setAttribute("user", user);
+        request.setAttribute("tagesList", tageService.findAll());
+        RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ AddTickets.jsp");
+        tasks.forward(request, response);
     }
 
     public void addTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -195,17 +196,15 @@ public class TaskServlet extends HttpServlet {
     }
     public void checkDateValidate(HttpServletRequest request, HttpServletResponse response ,boolean isUpdate,LocalDate creationDate,LocalDate endDate) throws ServletException, IOException
     {
-        RequestDispatcher tasks = request.getRequestDispatcher("admin/__ My-Task__ AddTickets.jsp");
-        long daysBetween = ChronoUnit.DAYS.between(LocalDate.now(),endDate);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        long daysBetween = ChronoUnit.DAYS.between(LocalDate.now(),creationDate);
         if(creationDate.isAfter(endDate)){
             request.setAttribute("errorDate", "Invalid Start Date ! start date should be before end date");
-            tasks.forward(request, response);
-        }else if(creationDate.isBefore(LocalDate.now()) ){
-            request.setAttribute("errorDate", "Invalid Start Date ! start date should be after or equal today");
-            tasks.forward(request, response);
+            addTaskView(request,response,user);
         }else if(daysBetween<=3){
-            request.setAttribute("errorDate", "Date must be 3 days before End Date");
-            tasks.forward(request, response);
+            request.setAttribute("errorDate", "Invalid Start Date ! start date should be after after 3 day from today");
+            addTaskView(request,response,user);
         }
     }
 

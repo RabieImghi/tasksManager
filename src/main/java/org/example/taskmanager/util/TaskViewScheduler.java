@@ -57,7 +57,8 @@ public class TaskViewScheduler {
                         countTask.getAndIncrement();
                     });
             if(countTask.intValue() > 0) {
-                user.setToken(4);
+                if(user.getToken()==0) user.setToken(4);
+                else user.setToken((user.getToken()+countTask.intValue())*2);
             } else user.setToken(2);
             userService.update(user);
         });
