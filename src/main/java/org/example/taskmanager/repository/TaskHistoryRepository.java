@@ -63,7 +63,6 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
             throw e;
         }
     }
-
     public Optional<TaskHistory> save(TaskHistory taskHistory){
         try {
             if(!transaction.isActive()){
@@ -98,7 +97,6 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
             throw e;
         }
     }
-
     public Optional<TaskHistory> findById(Long id){
         try {
             if(!transaction.isActive()){
@@ -130,18 +128,14 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
             throw e;
         }
     }
-    public List<TaskHistory> getAllTaskHistoryForChangeStatus(){
+    public List<TaskHistory> getAllTaskHistoryForChangeStatus(User user){
         try {
             if(!transaction.isActive()){
                 transaction.begin();
             }
-            LocalDate date = LocalDate.now();
             List<TaskHistory> list = entityManager
-                    .createQuery("FROM TaskHistory th where" +
-                            " th.task.isChanged = :isChanged and th.task.endDate < :date and th.task.isCompleted = :isComplete", TaskHistory.class)
-                    .setParameter("isChanged", false)
-                    .setParameter("date", date)
-                    .setParameter("isComplete", TaskStatus.EN_PROGRESS)
+                    .createQuery("FROM TaskHistory th where th.oldUser.id = :id", TaskHistory.class)
+                    .setParameter("id",user.getId())
                     .getResultList();
             list.forEach(taskHistory -> entityManager.refresh(taskHistory));
             return list;

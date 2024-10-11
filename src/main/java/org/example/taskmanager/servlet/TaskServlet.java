@@ -9,15 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.Tage;
 import org.example.taskmanager.entity.Task;
-import org.example.taskmanager.entity.TaskHistory;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.service.TageService;
 import org.example.taskmanager.service.TaskService;
 import org.example.taskmanager.service.UserService;
 import org.example.taskmanager.util.TaskStatus;
-import org.example.taskmanager.util.TokenScheduler;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -25,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "Task", value = "Task")

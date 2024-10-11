@@ -11,8 +11,6 @@ import org.example.taskmanager.entity.User;
 import org.example.taskmanager.service.TaskService;
 import org.example.taskmanager.service.UserService;
 import org.example.taskmanager.util.Manage;
-import org.example.taskmanager.util.TaskViewScheduler;
-import org.example.taskmanager.util.TokenScheduler;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,8 +23,7 @@ public class LoginServlet extends HttpServlet {
     public void init() throws ServletException {
         this.userService = new UserService();
         this.taskService = new TaskService();
-        TaskViewScheduler scheduler = new TaskViewScheduler();
-        scheduler.start();
+
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");

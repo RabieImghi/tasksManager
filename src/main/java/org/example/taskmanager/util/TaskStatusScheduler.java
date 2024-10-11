@@ -25,7 +25,7 @@ public class TaskStatusScheduler {
     }
 
     public void start() {
-        scheduler.scheduleAtFixedRate(this::update, 10,50, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(this::update, 30,50, TimeUnit.MINUTES);
     }
     public void update(){
         List<Task> taskList = taskService.findAll();

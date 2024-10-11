@@ -10,11 +10,8 @@ import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.service.UserService;
 import org.example.taskmanager.util.Manage;
-import org.example.taskmanager.util.TokenScheduler;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Optional;
 
 @WebServlet(name = "Register", value = "Register")
 public class RegisterServlet extends HttpServlet {

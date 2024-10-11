@@ -31,14 +31,14 @@ public class TaskHistory implements Serializable {
     @JoinColumn(name = "user_id")
     private User oldUser;
 
-    private boolean approve;
+    private boolean requestStatusAccept;
 
-    public TaskHistory(String typeModification, LocalDateTime modificationDate, Task task,User oldUser, boolean approve) {
+    public TaskHistory(String typeModification, LocalDateTime modificationDate, Task task,User oldUser, boolean requestStatusAccept) {
         this.typeModification = typeModification;
         this.modificationDate = modificationDate;
         this.task = task;
         this.oldUser = oldUser;
-        this.approve = approve;
+        this.requestStatusAccept = requestStatusAccept;
     }
 
     public TaskHistory() {}

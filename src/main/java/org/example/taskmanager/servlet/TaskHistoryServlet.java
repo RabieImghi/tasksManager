@@ -13,12 +13,9 @@ import org.example.taskmanager.entity.User;
 import org.example.taskmanager.service.TaskHistoryService;
 import org.example.taskmanager.service.TaskService;
 import org.example.taskmanager.service.UserService;
-import org.example.taskmanager.util.TokenScheduler;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -133,6 +130,9 @@ public class TaskHistoryServlet extends HttpServlet {
         if(taskHistoryList.size()<size) {
             taskHistoryService.save(taskHistory).ifPresent(taskHistory1 -> {
                 RequestDispatcher taskDispatch = request.getRequestDispatcher("admin/__ My-Task__ Tickets.jsp");
+                User user = taskHistory1.getOldUser();
+                user.setToken(taskHistory1.getOldUser().getToken()-1);
+                userService.update(user);
                 try {
                    if(taskHistory.getTypeModification().equals("delete")){
                        task.setDeleted(true);
@@ -173,7 +173,7 @@ public class TaskHistoryServlet extends HttpServlet {
             taskHistory.ifPresent(taskHistory1 -> {
                 taskHistory1.getTask().getAssigneeTo().setToken(taskHistory1.getTask().getAssigneeTo().getToken()-1);
                 userService.update(taskHistory1.getTask().getAssigneeTo());
-                taskHistory1.setApprove(true);
+                taskHistory1.setRequestStatusAccept(true);
                 taskHistoryService.update(taskHistory1);
                 if(task.isPresent() && user.isPresent()){
                     Task task1 = task.get();

@@ -7,20 +7,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.example.taskmanager.entity.Task;
-import org.example.taskmanager.entity.TaskHistory;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.service.TaskHistoryService;
 import org.example.taskmanager.service.UserService;
 import org.example.taskmanager.util.Manage;
-import org.example.taskmanager.util.TokenScheduler;
 
 import java.io.IOException;
-import java.nio.file.OpenOption;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "User", value = "User")
 public class UserServlet extends HttpServlet {
