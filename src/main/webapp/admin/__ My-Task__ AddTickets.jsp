@@ -113,6 +113,11 @@
 
                     </li>
                     <li class="collapsed">
+                        <a class="m-link" href="Tag">
+                            <span>Tags</span> </a>
+
+                    </li>
+                    <li class="collapsed">
                         <a class="m-link" href="taskHistory?action=approve">
                             <span>Approve Change</span> </a>
 

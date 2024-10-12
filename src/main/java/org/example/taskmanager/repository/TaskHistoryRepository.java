@@ -1,18 +1,14 @@
 package org.example.taskmanager.repository;
 
 import jakarta.persistence.*;
-import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.entity.TaskHistory;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.repository.impl.TaskHistoryRepositoryImpl;
-import org.example.taskmanager.util.TaskStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
@@ -173,4 +169,5 @@ public class TaskHistoryRepository implements TaskHistoryRepositoryImpl {
             throw e;
         }
     }
+
 }

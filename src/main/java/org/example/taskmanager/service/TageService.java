@@ -18,4 +18,17 @@ public class TageService implements TageServiceImpl {
     public Optional<Tage> findById(Long id){
         return tageRepository.findById(id);
     }
+    public Optional<Tage> findByName(String name){
+        return tageRepository.findByName(name);
+    }
+    public Optional<Tage> save(Tage tage){
+        return tageRepository.save(tage);
+    }
+    public Optional<Tage> delete(Tage tage){
+        return tageRepository.delete(tage);
+    }
+    public Optional<Tage> update(Tage tage){
+        return tageRepository.update(tage);
+    }
+
 }

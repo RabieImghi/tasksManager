@@ -24,7 +24,7 @@ public class Task implements Serializable {
     private LocalDate endDate;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "task_tag",
             joinColumns = @JoinColumn(name = "tasks_id"),
