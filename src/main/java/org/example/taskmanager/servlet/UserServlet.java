@@ -7,22 +7,28 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.taskmanager.entity.Tage;
 import org.example.taskmanager.entity.User;
+import org.example.taskmanager.service.TageService;
 import org.example.taskmanager.service.TaskHistoryService;
 import org.example.taskmanager.service.UserService;
 import org.example.taskmanager.util.Manage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "User", value = "User")
 public class UserServlet extends HttpServlet {
     UserService userService;
     TaskHistoryService taskHistoryService;
+    TageService tageService;
     public void init() throws ServletException {
         userService = new UserService();
         taskHistoryService = new TaskHistoryService();
+        tageService = new TageService();
     }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dashboard = request.getRequestDispatcher("admin/__ My-Task__ Dashboard.jsp");
@@ -63,7 +69,9 @@ public class UserServlet extends HttpServlet {
                 }
             }
         }else if(action.equals("dashboard")){
-            LoginServlet.dashboard(request,response);
+            List<String> listTage = tageService.findAll().stream()
+                    .map(Tage::getName).collect(Collectors.toList());
+            LoginServlet.dashboard(request,response,(User) session.getAttribute("user"), LocalDate.now().minusMonths(1),listTage);
         }else if(action.equals("users")){
             List<User> usersList= userService.getAll();
             request.setAttribute("userList", usersList);

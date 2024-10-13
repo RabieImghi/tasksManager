@@ -92,6 +92,7 @@ public class TaskServlet extends HttpServlet {
             case "Add Task" : addTaskView(request,response,user);
             case "addTask" : addTask(request,response);
             case "updateTask" : updateTask(request,response);
+            case "filter" : filterTask(request,response,user);
         }
     }
 
@@ -208,4 +209,27 @@ public class TaskServlet extends HttpServlet {
         }
     }
 
+    public void filterTask(HttpServletRequest request, HttpServletResponse response,User user) throws ServletException, IOException
+    {
+        LocalDate startDate;
+        String timeFilter = request.getParameter("timeFilter");
+        switch (timeFilter) {
+            case "week":
+                startDate = LocalDate.now().minusWeeks(1);
+                break;
+            case "month":
+                startDate = LocalDate.now().minusMonths(1);
+                break;
+            case "year":
+                startDate = LocalDate.now().minusYears(1);
+                break;
+            default: startDate = LocalDate.now().minusMonths(1);
+        }
+
+        String[] selectedTages = request.getParameterValues("tages[]");
+        List<String> listTage = Arrays.stream(selectedTages).collect(Collectors.toList());
+
+        LoginServlet.dashboard(request,response,user,startDate,listTage);
+
+    }
 }

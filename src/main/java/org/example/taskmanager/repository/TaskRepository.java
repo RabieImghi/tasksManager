@@ -6,8 +6,10 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import org.example.taskmanager.entity.Tage;
 import org.example.taskmanager.entity.Task;
+import org.example.taskmanager.entity.User;
 import org.example.taskmanager.repository.impl.TaskRepositoryImpl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,6 +120,29 @@ public class TaskRepository implements TaskRepositoryImpl {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
+            throw e;
+        }
+    }
+    public  List<Task> statManager(User manager, LocalDate startDate, LocalDate endDate, List<String> tags){
+        try {
+            if (!transaction.isActive()) transaction.begin();
+            String str = "SELECT t FROM Task t JOIN t.tages tag WHERE t.user = :user AND t.creationDate BETWEEN :startDate AND :endDate";
+            if (tags != null && !tags.isEmpty()) {
+                str += " AND tag.name IN :tags";
+            }
+
+            var query = entityManager.createQuery(str, Task.class);
+            query.setParameter("user", manager);
+            query.setParameter("startDate", startDate);
+            query.setParameter("endDate", endDate);
+
+            if (tags != null && !tags.isEmpty()) {
+                query.setParameter("tags", tags);
+            }
+
+            return query.getResultList();
+        }catch (Exception e){
+            if (transaction.isActive()) transaction.rollback();
             throw e;
         }
     }

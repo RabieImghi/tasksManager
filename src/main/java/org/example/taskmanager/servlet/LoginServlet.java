@@ -7,9 +7,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.taskmanager.entity.Tage;
 import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.entity.TaskHistory;
 import org.example.taskmanager.entity.User;
+import org.example.taskmanager.service.TageService;
 import org.example.taskmanager.service.TaskHistoryService;
 import org.example.taskmanager.service.TaskService;
 import org.example.taskmanager.service.UserService;
@@ -17,6 +19,7 @@ import org.example.taskmanager.util.Manage;
 import org.example.taskmanager.util.TaskStatus;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,10 +29,12 @@ public class LoginServlet extends HttpServlet {
     UserService userService;
     TaskService taskService;
     TaskHistoryService taskHistoryService;
+    TageService tageService;
     public void init() throws ServletException {
         this.userService = new UserService();
         this.taskService = new TaskService();
         this.taskHistoryService = new TaskHistoryService();
+        this.tageService = new TageService();
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
@@ -51,7 +56,11 @@ public class LoginServlet extends HttpServlet {
                     request.setAttribute("taskList", taskService.findAll() );
                     RequestDispatcher dispatcher = request.getRequestDispatcher("admin/__ My-Task__ Tickets.jsp");
                     dispatcher.forward(request, response);
-                }else dashboard(request,response);
+                }else {
+                    List<String> listTage = tageService.findAll().stream()
+                            .map(Tage::getName).collect(Collectors.toList());
+                    dashboard(request,response,user.get(),LocalDate.now().minusMonths(1),listTage);
+                }
             }else {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
                 dispatcher.forward(request, response);
@@ -63,19 +72,25 @@ public class LoginServlet extends HttpServlet {
 
     }
 
-    public static void dashboard(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException {
+    public static void dashboard(HttpServletRequest request,HttpServletResponse response,User user,LocalDate sDate,List<String> listTage)throws ServletException, IOException {
         TaskService taskService = new TaskService();
         TaskHistoryService taskHistoryService = new TaskHistoryService();
-        List<Task> taskList = taskService.findAll().stream().sorted((a,b)->a.getId().compareTo(b.getId())).collect(Collectors.toList());
-
+        TageService tageService = new TageService();
+        List<Task> taskList = taskService.findAll().stream().sorted((a,b)->a.getId().compareTo(b.getId()))
+                .filter(task -> task.getUser().getId().equals(user.getId()))
+                .collect(Collectors.toList());
         List<TaskHistory> taskHistoryList = taskHistoryService.getAllTaskHistory();
         long completedTask = taskList.stream().filter(task -> task.getIsCompleted().equals(TaskStatus.COMPLETED)).count();
         long canceledTask = taskList.stream().filter(task -> task.getIsCompleted().equals(TaskStatus.CANCELLED)).count();
+        LocalDate endDate = LocalDate.now();
+        double prs = taskService.statManager(user,sDate,endDate,listTage);
+        request.setAttribute("completionPercentage", prs);
         request.setAttribute("totalTask",taskList.size());
         request.setAttribute("completedTask",completedTask);
         request.setAttribute("canceledTask",canceledTask);
         request.setAttribute("totalToken",taskHistoryList.size());
         request.setAttribute("listTask", taskList);
+        request.setAttribute("tagesList", tageService.findAll());
         RequestDispatcher dispatcher = request.getRequestDispatcher("admin/__ My-Task__ Dashboard.jsp");
         dispatcher.forward(request, response);
     }
