@@ -1202,26 +1202,44 @@
                         <div class="card">
                             <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                 <h6 class="mb-0 fw-bold ">Task Overview for Assigned Employees</h6>
-                                <p>Completion Percentage: ${completionPercentage}%</p>
                             </div>
                             <div class="card-body">
                                 <div class="ac-line-transparent" id="apex-emplyoeeAnalytics">
                                     <form method="post" action="Task ">
-                                        <label for="timeFilter">Filter By Time:</label>
-                                        <select name="timeFilter" class="form-control" id="timeFilter">
-                                            <option value="week" ${timeFilter == 'week' ? 'selected' : ''}>Week</option>
-                                            <option value="month" ${timeFilter == 'month' ? 'selected' : ''}>Month</option>
-                                            <option value="year" ${timeFilter == 'year' ? 'selected' : ''}>Year</option>
-                                        </select>
-                                        <br>
-                                        <label for="tages">Filter By Time:</label>
-                                        <select name="tages[]" class="form-control" id="tages">
-                                            <c:forEach var="tage" items="${tagesList}">
-                                                <option value="${tage.name}">${tage.name}</option>
-                                            </c:forEach>
-                                        </select>
-                                        <button type="submit" name="actionType" value="filter">Apply Filter</button>
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <label for="timeFilter">Filter By Time:</label>
+                                                <select name="timeFilter" class="form-control" id="timeFilter">
+                                                    <option value="week" ${timeFilter == 'week' ? 'selected' : ''}>Week</option>
+                                                    <option value="month" ${timeFilter == 'month' ? 'selected' : ''}>Month</option>
+                                                    <option value="year" ${timeFilter == 'year' ? 'selected' : ''}>Year</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <label for="tages">Tags :</label>
+                                                <select name="tages[]" class="form-control" multiple size="3" id="tages">
+                                                    <c:forEach var="tage" items="${tagesList}">
+                                                        <option value="${tage.name}">${tage.name}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button type="submit" class="btn btn-primary" name="actionType" value="filter">Apply Filter</button>
+                                            </div>
+                                        </div>
+
                                     </form>
+                                    <div class="card mt-3 p-4">
+                                        <span class="">
+                                            Completion percentage filtered by tags :
+                                            <c:forEach var="tag" items="${listTage}">
+                                                <span class="btn btn-outline-primary">#${tag} </span>
+                                            </c:forEach>
+                                        </span>
+                                        <span class="">Start Date : <span class="text-primary">${sDate}</span></span>
+                                        <span class="">End Date : <span class="text-primary">${endDate}</span></span>
+                                        <span class="">Completion percentage : <span class="text-danger">${completionPercentage}%</span></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1233,7 +1251,9 @@
                         <div class="card mb-3">
                             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                 <div class="info-header">
-                                    <h6 class="mb-0 fw-bold ">Last 6 Task Created</h6>
+                                    <h6 class="mb-0 fw-bold ">
+                                        List Tasks In : Start Date : <span class="text-primary">${sDate}</span> / End Date : <span class="text-primary">${endDate}</span>
+                                    </h6>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -1278,7 +1298,7 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <c:forEach var="task" items="${listTask}" begin="0" end="5">
+                                                    <c:forEach var="task" items="${listTask}">
                                                         <tr role="row" class="odd">
                                                             <td tabindex="0" class="sorting_1"><a
                                                                     href="#">

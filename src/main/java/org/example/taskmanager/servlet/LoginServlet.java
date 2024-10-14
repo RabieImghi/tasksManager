@@ -76,13 +76,16 @@ public class LoginServlet extends HttpServlet {
         TaskService taskService = new TaskService();
         TaskHistoryService taskHistoryService = new TaskHistoryService();
         TageService tageService = new TageService();
+        LocalDate endDate = LocalDate.now();
         List<Task> taskList = taskService.findAll().stream().sorted((a,b)->a.getId().compareTo(b.getId()))
                 .filter(task -> task.getUser().getId().equals(user.getId()))
+                .filter(task ->  !task.getCreationDate().isBefore(sDate) && !task.getCreationDate().isAfter(endDate))
+                .filter(task -> task.getTages().stream().anyMatch(tag -> listTage.contains(tag.getName())))
                 .collect(Collectors.toList());
         List<TaskHistory> taskHistoryList = taskHistoryService.getAllTaskHistory();
         long completedTask = taskList.stream().filter(task -> task.getIsCompleted().equals(TaskStatus.COMPLETED)).count();
         long canceledTask = taskList.stream().filter(task -> task.getIsCompleted().equals(TaskStatus.CANCELLED)).count();
-        LocalDate endDate = LocalDate.now();
+
         double prs = taskService.statManager(user,sDate,endDate,listTage);
         request.setAttribute("completionPercentage", prs);
         request.setAttribute("totalTask",taskList.size());
@@ -91,6 +94,9 @@ public class LoginServlet extends HttpServlet {
         request.setAttribute("totalToken",taskHistoryList.size());
         request.setAttribute("listTask", taskList);
         request.setAttribute("tagesList", tageService.findAll());
+        request.setAttribute("endDate",endDate);
+        request.setAttribute("sDate",sDate);
+        request.setAttribute("listTage",listTage);
         RequestDispatcher dispatcher = request.getRequestDispatcher("admin/__ My-Task__ Dashboard.jsp");
         dispatcher.forward(request, response);
     }
