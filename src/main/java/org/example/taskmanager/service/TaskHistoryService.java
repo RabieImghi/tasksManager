@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class TaskHistoryService implements TaskHistoryServiceImpl {
-    TaskHistoryRepository taskHistoryRepository;
-    public TaskHistoryService() {
-        this.taskHistoryRepository = new TaskHistoryRepository();
+    private final TaskHistoryRepository taskHistoryRepository;
+    public TaskHistoryService(TaskHistoryRepository taskHistoryRepository) {
+        this.taskHistoryRepository = taskHistoryRepository;
     }
 
     public List<TaskHistory> getTaskHistoryByTaskId(User user, String typeModification) {

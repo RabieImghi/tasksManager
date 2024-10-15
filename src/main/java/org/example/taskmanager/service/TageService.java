@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class TageService implements TageServiceImpl {
-    TageRepository tageRepository;
-    public TageService() {
-        tageRepository = new TageRepository();
+    private final TageRepository tageRepository;
+    public TageService(TageRepository tageRepository) {
+        this.tageRepository = tageRepository;
     }
     public List<Tage> findAll(){
         return tageRepository.findAll();

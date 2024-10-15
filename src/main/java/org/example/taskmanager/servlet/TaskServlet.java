@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.Tage;
 import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.entity.User;
+import org.example.taskmanager.repository.TageRepository;
+import org.example.taskmanager.repository.TaskRepository;
+import org.example.taskmanager.repository.UserRepository;
 import org.example.taskmanager.service.TageService;
 import org.example.taskmanager.service.TaskService;
 import org.example.taskmanager.service.UserService;
@@ -32,9 +35,9 @@ public class TaskServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.userService = new UserService();
-        this.taskService = new TaskService();
-        this.tageService = new TageService();
+        this.userService = new UserService(new UserRepository());
+        this.taskService = new TaskService(new TaskRepository());
+        this.tageService = new TageService(new TageRepository());
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException

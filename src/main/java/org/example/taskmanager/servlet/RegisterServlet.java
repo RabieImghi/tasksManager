@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.User;
+import org.example.taskmanager.repository.UserRepository;
 import org.example.taskmanager.service.UserService;
 import org.example.taskmanager.util.Manage;
 
@@ -19,7 +20,7 @@ public class RegisterServlet extends HttpServlet {
     private UserService userService;
 
     public void init() throws ServletException {
-        this.userService = new UserService();
+        this.userService = new UserService(new UserRepository());
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");

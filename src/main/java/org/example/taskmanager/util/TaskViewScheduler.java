@@ -3,6 +3,9 @@ package org.example.taskmanager.util;
 import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.entity.TaskHistory;
 import org.example.taskmanager.entity.User;
+import org.example.taskmanager.repository.TaskHistoryRepository;
+import org.example.taskmanager.repository.TaskRepository;
+import org.example.taskmanager.repository.UserRepository;
 import org.example.taskmanager.service.TaskHistoryService;
 import org.example.taskmanager.service.TaskService;
 import org.example.taskmanager.service.UserService;
@@ -23,9 +26,9 @@ public class TaskViewScheduler {
     private final UserService userService;
 
     public TaskViewScheduler(){
-        this.taskService = new TaskService();
-        this.taskHistoryService = new TaskHistoryService();
-        this.userService = new UserService();
+        this.taskService = new TaskService(new TaskRepository());
+        this.taskHistoryService = new TaskHistoryService(new TaskHistoryRepository());
+        this.userService = new UserService(new UserRepository());
     }
 
     public void start() {

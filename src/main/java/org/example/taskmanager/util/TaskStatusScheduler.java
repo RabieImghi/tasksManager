@@ -3,6 +3,7 @@ package org.example.taskmanager.util;
 import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.entity.TaskHistory;
 import org.example.taskmanager.entity.User;
+import org.example.taskmanager.repository.TaskRepository;
 import org.example.taskmanager.service.TaskHistoryService;
 import org.example.taskmanager.service.TaskService;
 import org.example.taskmanager.service.UserService;
@@ -21,7 +22,7 @@ public class TaskStatusScheduler {
     private final TaskService taskService;
 
     public TaskStatusScheduler(){
-        this.taskService = new TaskService();
+        this.taskService = new TaskService(new TaskRepository());
     }
 
     public void start() {

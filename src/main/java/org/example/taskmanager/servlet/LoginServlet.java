@@ -11,6 +11,10 @@ import org.example.taskmanager.entity.Tage;
 import org.example.taskmanager.entity.Task;
 import org.example.taskmanager.entity.TaskHistory;
 import org.example.taskmanager.entity.User;
+import org.example.taskmanager.repository.TageRepository;
+import org.example.taskmanager.repository.TaskHistoryRepository;
+import org.example.taskmanager.repository.TaskRepository;
+import org.example.taskmanager.repository.UserRepository;
 import org.example.taskmanager.service.TageService;
 import org.example.taskmanager.service.TaskHistoryService;
 import org.example.taskmanager.service.TaskService;
@@ -31,10 +35,10 @@ public class LoginServlet extends HttpServlet {
     TaskHistoryService taskHistoryService;
     TageService tageService;
     public void init() throws ServletException {
-        this.userService = new UserService();
-        this.taskService = new TaskService();
-        this.taskHistoryService = new TaskHistoryService();
-        this.tageService = new TageService();
+        this.userService = new UserService(new UserRepository());
+        this.taskService = new TaskService(new TaskRepository());
+        this.taskHistoryService = new TaskHistoryService(new TaskHistoryRepository());
+        this.tageService = new TageService(new TageRepository());
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
@@ -73,9 +77,9 @@ public class LoginServlet extends HttpServlet {
     }
 
     public static void dashboard(HttpServletRequest request,HttpServletResponse response,User user,LocalDate sDate,List<String> listTage)throws ServletException, IOException {
-        TaskService taskService = new TaskService();
-        TaskHistoryService taskHistoryService = new TaskHistoryService();
-        TageService tageService = new TageService();
+        TaskService taskService = new TaskService(new TaskRepository());
+        TaskHistoryService taskHistoryService = new TaskHistoryService(new TaskHistoryRepository());
+        TageService tageService = new TageService(new TageRepository());
         LocalDate endDate = LocalDate.now();
         List<Task> taskList = taskService.findAll().stream().sorted((a,b)->a.getId().compareTo(b.getId()))
                 .filter(task -> task.getUser().getId().equals(user.getId()))

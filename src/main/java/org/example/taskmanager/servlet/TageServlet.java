@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.Tage;
 import org.example.taskmanager.entity.User;
+import org.example.taskmanager.repository.TageRepository;
 import org.example.taskmanager.service.TageService;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class TageServlet extends HttpServlet {
     private TageService tageService;
 
     public void init() throws ServletException {
-        this.tageService =new TageService();
+        this.tageService =new TageService(new TageRepository());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

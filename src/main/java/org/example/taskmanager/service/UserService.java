@@ -12,24 +12,26 @@ import java.util.Optional;
 
 public class UserService implements UserServiceImpl {
 
-    private UserRepository userRepository;
-    public UserService() {
-        this.userRepository = new UserRepository();
+    private final UserRepository userRepository;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
-
-
     public Optional<User> register(User user,  HttpServletRequest request) throws Exception{
         HttpSession session = request.getSession();
         if (user == null) {
             session.setAttribute("emptyUser", "User cannot be null");
         }
 
-        userRepository.findByEmail(user.getEmail()).ifPresentOrElse(user1 -> {
+        assert user != null;
+        this.findByEmail(user).ifPresentOrElse(user1 -> {
             session.setAttribute("existEmail","Email already exists");
-        }, () -> userRepository.findByUsername(user.getUsername()).ifPresentOrElse(user2 -> {
+        }, () -> this.findByUsername(user).ifPresentOrElse(user2 -> {
             session.setAttribute("existUsername","Username already exists");
-        },()->userRepository.save(user)));
+        },()->this.save(user)));
         return Optional.of(user);
+    }
+    public Optional<User> save(User user){
+        return userRepository.save(user);
     }
     public Optional<User> login(String username, String password) throws Exception{
         Optional<User> user = userRepository.findByUsername(username);
@@ -44,6 +46,12 @@ public class UserService implements UserServiceImpl {
     }
     public Optional<User> getById(Long id){
         return userRepository.findById(id);
+    }
+    public Optional<User> findByUsername(User user){
+        return  userRepository.findByUsername(user.getUsername());
+    }
+    public Optional<User> findByEmail(User user){
+        return  userRepository.findByEmail(user.getEmail());
     }
     public Optional<User> deleteById(User user){
         return userRepository.deleteById(user);

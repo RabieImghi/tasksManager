@@ -15,8 +15,8 @@ import java.util.Optional;
 public class TaskService implements TaskServiceImpl {
     private final TaskRepositoryImpl taskRepository;
 
-    public TaskService() {
-        this.taskRepository = new TaskRepository();
+    public TaskService(TaskRepositoryImpl taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
     public Optional<Task> save(Task task) {

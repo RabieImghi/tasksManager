@@ -9,6 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.Tage;
 import org.example.taskmanager.entity.User;
+import org.example.taskmanager.repository.TageRepository;
+import org.example.taskmanager.repository.TaskHistoryRepository;
+import org.example.taskmanager.repository.UserRepository;
 import org.example.taskmanager.service.TageService;
 import org.example.taskmanager.service.TaskHistoryService;
 import org.example.taskmanager.service.UserService;
@@ -26,9 +29,9 @@ public class UserServlet extends HttpServlet {
     TaskHistoryService taskHistoryService;
     TageService tageService;
     public void init() throws ServletException {
-        userService = new UserService();
-        taskHistoryService = new TaskHistoryService();
-        tageService = new TageService();
+        userService = new UserService(new UserRepository());
+        taskHistoryService = new TaskHistoryService(new TaskHistoryRepository());
+        tageService = new TageService(new TageRepository());
     }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dashboard = request.getRequestDispatcher("admin/__ My-Task__ Dashboard.jsp");

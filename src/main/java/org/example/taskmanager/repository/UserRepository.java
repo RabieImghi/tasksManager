@@ -20,7 +20,7 @@ public class UserRepository implements UserRepositoryImpl {
         this.entityManager = emf.createEntityManager();
     }
 
-    public boolean save(User user){
+    public Optional<User> save(User user){
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             if (!transaction.isActive()) {
@@ -28,7 +28,7 @@ public class UserRepository implements UserRepositoryImpl {
             }
             entityManager.persist(user);
             transaction.commit();
-            return true;
+            return Optional.of(user);
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
