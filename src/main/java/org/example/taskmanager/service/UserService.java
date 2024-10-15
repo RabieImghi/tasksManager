@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.errors.UserAlreadyExistException;
 import org.example.taskmanager.errors.UserEqualsNullException;
+import org.example.taskmanager.errors.UserNotExistException;
 import org.example.taskmanager.errors.UserPasswordInvalidException;
 import org.example.taskmanager.repository.UserRepository;
 import org.example.taskmanager.service.impl.UserServiceImpl;
@@ -24,10 +25,6 @@ public class UserService implements UserServiceImpl {
         this.findByUsername(user).ifPresent(user2 -> {
             throw new UserAlreadyExistException("Username "+user.getUsername());
         });
-        this.save(user);
-        return Optional.of(user);
-    }
-    public Optional<User> save(User user){
         return userRepository.save(user);
     }
     public Optional<User> login(String username, String password) throws Exception{
@@ -48,7 +45,10 @@ public class UserService implements UserServiceImpl {
         return  userRepository.findByUsername(user.getUsername());
     }
     public Optional<User> deleteById(User user){
-        return userRepository.deleteById(user);
+        if (user == null) throw new UserEqualsNullException();
+        if(this.getById(user.getId()).isPresent()){
+            return userRepository.deleteById(user);
+        }else throw new UserNotExistException(user.getUsername());
     }
     public Optional<User> update(User user){
         if (user == null) throw new UserEqualsNullException();

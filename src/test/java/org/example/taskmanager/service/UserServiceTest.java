@@ -3,6 +3,7 @@ package org.example.taskmanager.service;
 import org.example.taskmanager.entity.User;
 import org.example.taskmanager.errors.UserAlreadyExistException;
 import org.example.taskmanager.errors.UserEqualsNullException;
+import org.example.taskmanager.errors.UserNotExistException;
 import org.example.taskmanager.errors.UserPasswordInvalidException;
 import org.example.taskmanager.repository.UserRepository;
 import org.example.taskmanager.util.Manage;
@@ -61,6 +62,15 @@ public class UserServiceTest {
     void testRegisterUserNull(){
         assertThrows(UserEqualsNullException.class,()->{
             userService.register(null);
+        });
+    }
+
+    @ParameterizedTest
+    @MethodSource("userGenerateOld")
+    void testDeleteUserNotExist(User user){
+        assertThrows(UserNotExistException.class,()->{
+            user.setId(100L);
+            userService.deleteById(user);
         });
     }
 
