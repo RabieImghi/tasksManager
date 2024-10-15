@@ -42,31 +42,12 @@ public class RegisterServlet extends HttpServlet {
         RequestDispatcher loginDispatcher = request.getRequestDispatcher("index.jsp");
         RequestDispatcher registerDispatcher = request.getRequestDispatcher("register.jsp");
         try {
-            if (userService.register(user,request).isPresent()) {
-                String message="";
-                if (session.getAttribute("emptyUser") != null){
-                    message = (String) session.getAttribute("emptyUser");
-                    session.removeAttribute("emptyUser");
-                }
-                else if(session.getAttribute("existEmail") != null) {
-                    message = (String) session.getAttribute("existEmail");
-                    session.removeAttribute("existEmail");
-                }
-                else if(session.getAttribute("existUsername") != null) {
-                    message = (String) session.getAttribute("existUsername");
-                    session.removeAttribute("existUsername");
-                }
-                if (message.isEmpty()){
-                    request.setAttribute("message","Register With success");
-                    if (submitType.equals("user")) loginDispatcher.forward(request, response);
-                    else {
-                        request.setAttribute("userList", userService.getAll());
-                        request.getRequestDispatcher("admin/__ My-Task__ Ourclients.jsp").forward(request,response);
-                    };
-                }
+            if (userService.register(user).isPresent()) {
+                request.setAttribute("message","Register With success");
+                if (submitType.equals("user")) loginDispatcher.forward(request, response);
                 else {
-                    request.setAttribute("message", message);
-                    registerDispatcher.forward(request, response);
+                    request.setAttribute("userList", userService.getAll());
+                    request.getRequestDispatcher("admin/__ My-Task__ Ourclients.jsp").forward(request,response);
                 }
             } else {
                 registerDispatcher.forward(request, response);
