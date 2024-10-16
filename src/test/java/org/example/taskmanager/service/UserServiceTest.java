@@ -51,7 +51,7 @@ public class UserServiceTest {
 
     @ParameterizedTest
     @MethodSource("userGenerateOld")
-    void testLoginUserPasswordValid(User user){
+    void testLoginUserWithPasswordInvalid(User user){
         when(userService.findByUsername(user)).thenReturn(Optional.of(user));
         assertThrows(UserPasswordInvalidException.class,()->{
             userService.login(user.getUsername(),"Wrong password");
