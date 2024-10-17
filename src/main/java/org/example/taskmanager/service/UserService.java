@@ -36,10 +36,12 @@ public class UserService implements UserServiceImpl {
                 throw new UserPasswordInvalidException();
             }
         }
-        return Optional.empty();
+        throw new UserNotExistException(username);
     }
     public Optional<User> getById(Long id){
-        return userRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()) return user;
+        else throw new  UserNotExistException("Null");
     }
     public Optional<User> findByUsername(User user){
         return  userRepository.findByUsername(user.getUsername());
@@ -52,6 +54,7 @@ public class UserService implements UserServiceImpl {
     }
     public Optional<User> update(User user){
         if (user == null) throw new UserEqualsNullException();
+        if(this.getById(user.getId()).isEmpty()) throw new UserNotExistException(user.getUsername());
         return userRepository.update(user);
     }
     public List<User> getAll(){

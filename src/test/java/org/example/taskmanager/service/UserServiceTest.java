@@ -45,8 +45,31 @@ public class UserServiceTest {
     void testRegisterNewUserByUsernameAlreadyExist(User user){
         when(userService.findByUsername(user)).thenReturn(Optional.of(user));
         assertThrows(UserAlreadyExistException.class,()->{
-           userService.register(user);
+            userService.register(user);
         });
+    }
+    @Test
+    void testRegisterUserNull(){
+        assertThrows(UserEqualsNullException.class,()->{
+            userService.register(null);
+        });
+    }
+
+    @ParameterizedTest
+    @MethodSource("userGenerateOld")
+    void testRegisterUserSuccess(User user){
+        when(userService.findByUsername(user)).thenReturn(Optional.empty());
+        when(userRepositoryMock.save(user)).thenReturn(Optional.of(user));
+        Optional<User> userOptional = userService.register(user);
+        assertTrue(userOptional.isPresent());
+    }
+
+    @ParameterizedTest
+    @MethodSource("userGenerateOld")
+    void testLoginSuccess(User user) throws Exception {
+        when(userRepositoryMock.save(user)).thenReturn(Optional.of(user));
+        when(userService.findByUsername(user)).thenReturn(Optional.of(user));
+        assertTrue(userService.login(user.getUsername(),"rabie").isPresent());
     }
 
     @ParameterizedTest
@@ -58,11 +81,23 @@ public class UserServiceTest {
         });
     }
 
-    @Test
-    void testRegisterUserNull(){
-        assertThrows(UserEqualsNullException.class,()->{
-            userService.register(null);
+    @ParameterizedTest
+    @MethodSource("userGenerateOld")
+    void testLoginReturnsEmptyWhenUsernameNotFound(User user){
+        when(userService.findByUsername(user)).thenReturn(Optional.empty());
+        assertThrows(UserNotExistException.class,()-> {
+            userService.login("wrong_username",user.getPassword());
         });
+    }
+
+    @ParameterizedTest
+    @MethodSource("userGenerateOld")
+    void testGetByIdReturnsEmptyWhenUserNotFound(User user){
+        user.setId(3L);
+        assertThrows(UserNotExistException.class,()->{
+            userService.getById(1L);
+        });
+
     }
 
     @ParameterizedTest
@@ -73,5 +108,79 @@ public class UserServiceTest {
             userService.deleteById(user);
         });
     }
+
+
+    @Test
+    void testUpdateUserWhenUserIsNull(){
+        assertThrows(UserEqualsNullException.class, ()->{
+            userService.update(null);
+        });
+    }
+    @Test
+    void testGetAllUsersIsEmpty(){
+        assertTrue(userService.getAll().isEmpty());
+    }
+    @ParameterizedTest
+    @MethodSource("userGenerateOld")
+    void testUpdateUserSuccess(User user){
+        user.setId(1L);
+        when(userRepositoryMock.findById(user.getId())).thenReturn(Optional.of(user));
+        when(userRepositoryMock.update(user)).thenReturn(Optional.of(user));
+        assertTrue(userService.update(user).isPresent());
+    }
+    @ParameterizedTest
+    @MethodSource("userGenerateOld")
+    void testGetByIdSuccess(User user){
+        user.setId(1L);
+        when(userRepositoryMock.findById(user.getId())).thenReturn(Optional.of(user));
+        Optional<User> userOptional = userService.getById(user.getId());
+        assertTrue(userOptional.isPresent());
+    }
+
+    @ParameterizedTest
+    @MethodSource("userGenerateOld")
+    void testFindByUsernameSuccess(User user){
+        when(userRepositoryMock.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+        Optional<User> userOptional = userService.findByUsername(user);
+        assertTrue(userOptional.isPresent());
+    }
+    @ParameterizedTest
+    @MethodSource("userGenerateOld")
+    void testFindByUsernameReturnsEmptyWhenUserNotFound(User user){
+        assertTrue(userService.findByUsername(user).isEmpty());
+    }
+
+
+    @Test
+    void testDeleteByIdWhenUserIsNull(){
+        assertThrows(UserEqualsNullException.class, ()-> {
+            userService.deleteById(null);
+        });
+    }
+
+    @ParameterizedTest
+    @MethodSource("userGenerateOld")
+    void testDeleteByIdWhenUserNotExist(User user){
+        user.setId(100L);
+        when(userRepositoryMock.findById(user.getId())).thenReturn(Optional.empty());
+        assertThrows(UserNotExistException.class,()->{
+            userService.deleteById(user);
+        });
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("userGenerateOld")
+    void testDeleteByIdSuccess(User user){
+        user.setId(1L);
+        when(userRepositoryMock.findById(user.getId())).thenReturn(Optional.of(user));
+        when(userRepositoryMock.deleteById(user)).thenReturn(Optional.of(user));
+        assertTrue(userService.deleteById(user).isPresent());
+
+    }
+
+
+
+
 
 }

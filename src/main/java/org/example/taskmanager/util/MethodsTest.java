@@ -1,27 +1,27 @@
 package org.example.taskmanager.util;
 
 public interface MethodsTest {
-    void testRegisterUserSuccess();
+    //void testRegisterUserSuccess();
   //  void testRegisterUserThrowsExceptionWhenUserIsNull() ;
    // void testRegisterUserThrowsExceptionWhenUsernameExists() ;
 
-    void testLoginSuccess() ;
+    //void testLoginSuccess() ;
     //void testLoginThrowsExceptionWhenPasswordIsInvalid() ;
-    void testLoginReturnsEmptyWhenUsernameNotFound() ;
+    //void testLoginReturnsEmptyWhenUsernameNotFound() ;
 
-    void testGetByIdSuccess() ;
-    void testGetByIdReturnsEmptyWhenUserNotFound() ;
+   // void testGetByIdSuccess() ;
+//  void testGetByIdReturnsEmptyWhenUserNotFound() ;
 
-    void testFindByUsernameSuccess() ;
-        void testFindByUsernameReturnsEmptyWhenUserNotFound() ;
+   // void testFindByUsernameSuccess() ;
+   // void testFindByUsernameReturnsEmptyWhenUserNotFound() ;
 
     void testDeleteByIdSuccess() ;
-    void testDeleteByIdThrowsExceptionWhenUserIsNull() ;
+//    void testDeleteByIdThrowsExceptionWhenUserIsNull() ;
     //void testDeleteByIdThrowsExceptionWhenUserNotFound() ;
 
     void testUpdateUserSuccess() ;
-    void testUpdateUserThrowsExceptionWhenUserIsNull() ;
+//    void testUpdateUserThrowsExceptionWhenUserIsNull() ;
 
-    void testGetAllUsersSuccess() ;
+//    void testGetAllUsersSuccess() ;
 
 }
